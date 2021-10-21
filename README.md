@@ -1,6 +1,6 @@
-# ![TagCo logo](/Screenshots/tag.png) GTM Template: "Commanders Act | Serverside events bridge"
+# ![TagCo logo](/Screenshots/tag.png) GTM Template Serverside events bridge
 ## Overview
-A template using "Commanders Act" OnSite CMP API (https://community.commandersact.com/trustcommander/onsite-api/getting-started) to manage consent in GTM.
+A template using "Commanders Act" reference specifications to perform advanced serverside activation use cases.
 
 ## Licence
 See the LICENCE file for details.
