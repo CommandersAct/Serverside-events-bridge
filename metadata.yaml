@@ -15,5 +15,5 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://community.commandersact.com/trustcommander/onsite-api/getting-started"
 versions:
-  - sha: 5f02a788b90ae804f86b04aa24af8937e567874a
+  - sha: 8c7a0732114c0756346b91635d8320883cd63466
     changeNotes: Initial Version
