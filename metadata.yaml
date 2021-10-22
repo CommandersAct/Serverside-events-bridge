@@ -13,7 +13,7 @@
 # limitations under the License.
 
 homepage: "https://www.commandersact.com"
-documentation: "https://community.commandersact.com/trustcommander/onsite-api/getting-started"
+documentation: "https://community.commandersact.com/tagcommander/user-manual/serverside-v2/facebook-conversion-api/facebook-capi-through-gtm"
 versions:
   - sha: 8c7a0732114c0756346b91635d8320883cd63466
     changeNotes: Initial Version
