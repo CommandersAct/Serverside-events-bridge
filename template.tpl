@@ -1067,7 +1067,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pUserId",
         "displayName": "User Id:",
         "simpleValueType": true,
-        "help": "User identifier.",
+        "help": "User identifier. (*) This is required if \"User Email\" is not set.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -1091,15 +1091,15 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "TEXT",
-        "name": "rUserId",
+        "name": "oUserId",
         "displayName": "User Id:",
         "simpleValueType": true,
         "help": "User identifier.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
-            "paramValue": "refund",
-            "type": "EQUALS"
+            "paramValue": "purchase",
+            "type": "NOT_EQUALS"
           }
         ]
       },
@@ -1132,15 +1132,15 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "TEXT",
-        "name": "rUserEmail",
+        "name": "oUserEmail",
         "displayName": "User Email:",
         "simpleValueType": true,
-        "help": "User Email. (*) This is required if \"User Id\" is not set.",
+        "help": "User Email.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
-            "paramValue": "refund",
-            "type": "EQUALS"
+            "paramValue": "purchase",
+            "type": "NOT_EQUALS"
           }
         ]
       },
@@ -1155,28 +1155,10 @@ ___TEMPLATE_PARAMETERS___
         "valueValidators": [
           {
             "type": "NON_EMPTY",
-            "enablingConditions": [
-              {
-                "paramName": "caEvent",
-                "paramValue": "purchase",
-                "type": "EQUALS"
-              }
-            ]
+            "enablingConditions": []
           }
         ],
         "notSetText": ""
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "caEvent",
-        "paramValue": "refund",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "caEvent",
-        "paramValue": "purchase",
-        "type": "EQUALS"
       }
     ]
   }
@@ -1191,7 +1173,7 @@ const queryPermission = require('queryPermission');
 const makeNumber = require('makeNumber');
 const log = require('logToConsole');
 
-const tcLib = 'https://cdn.tagcommander.com/events-gtm/events-gtm.js';
+const tcLib = 'https://cdn.tagcommander.com/events/events.js';
 
 function mapItem(p) {
     return {
@@ -1218,13 +1200,10 @@ function mapItem(p) {
 }
 
 var caEventData = {};
-caEventData.caSiteId = data.caSiteId;
-if ((typeof data.caCollectionDomain !== "undefined") && (data.caCollectionDomain !== "")) {
-  caEventData.caCollectionDomain = data.caCollectionDomain;
-} else {
-  // Fallback on default endpoint
-  caEventData.caCollectionDomain = "collect.commander1.com";
-}
+var config = {
+    idSite: data.caSiteId,
+    collectionDomain: ((typeof data.caCollectionDomain !== "undefined") && (data.caCollectionDomain !== ""))?data.caCollectionDomain:"collect.commander1.com"
+};
 
 if (typeof data.productArray === "undefined") data.productArray = [];
 switch(data.caEvent) {
@@ -1233,6 +1212,10 @@ switch(data.caEvent) {
     caEventData.revenue = makeNumber(data.revenue);
     caEventData.currency = data.currency;
     caEventData.coupon = data.coupon;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1242,6 +1225,10 @@ switch(data.caEvent) {
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
     caEventData.coupon = data.coupon;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1249,6 +1236,10 @@ switch(data.caEvent) {
   case "add_to_cart":
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1256,6 +1247,10 @@ switch(data.caEvent) {
   case "add_to_wishlist":
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1265,6 +1260,10 @@ switch(data.caEvent) {
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
     caEventData.coupon = data.coupon;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1273,16 +1272,28 @@ switch(data.caEvent) {
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
     caEventData.id = data.id;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
   break;
   case "login":
     caEventData.method = data.method;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
   break;      
   case "page_view":
     caEventData.type = data.pageType;
     caEventData.name = data.pageName;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
   break;
   case "purchase":
     caEventData.id = data.transactionId;
@@ -1315,8 +1326,8 @@ switch(data.caEvent) {
     caEventData.tax_amount = makeNumber(data.taxAmount);
     caEventData.coupon = data.coupon;
     caEventData.user = {};
-    caEventData.user.id = data.rUserId;
-    caEventData.user.email = data.rUserEmail;
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
@@ -1325,29 +1336,53 @@ switch(data.caEvent) {
   case "remove_from_cart":
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
   break;
   case "search":
     caEventData.search_term = data.searchTerm;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
   break;
   case "select_content":
     caEventData.content_type = data.contentType;
     caEventData.item_id = data.itemId;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
   break;
   case "select_item":
     caEventData.item_list_name = data.itemListName;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
   break;
   case "sign_up":
     caEventData.method = data.signupMethod;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
   break;
   case "view_cart":
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1355,12 +1390,20 @@ switch(data.caEvent) {
   case "view_item":
     caEventData.revenue = makeNumber(data.revenue);
     caEventData.currency = data.currency;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
   break;
   case "view_item_list":
     caEventData.item_list_name = data.itemListName;
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1378,7 +1421,7 @@ if (queryPermission('inject_script', tcLib)) {
  
 function onSuccess() {
   log('START | Triggering cact...');
-  callInWindow('cact', 'trigger', data.caEvent, caEventData);
+  callInWindow('cact', 'trigger', data.caEvent, caEventData, config);
   log('END | Triggering cact');
   data.gtmOnSuccess();
 }
@@ -1628,7 +1671,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -1758,7 +1804,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -1886,7 +1935,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2014,7 +2066,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2144,7 +2199,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2154,13 +2212,16 @@ scenarios:
 - name: 'Test #6 | Event | Generate Lead'
   code: |-
     const mockData = {
-        // Mocked field values
-        caSiteId: "1739",
-        caCollectionDomain: "collect.commander1.com",
-        caEvent: "generate_lead",
-        value: "5375.00",
-        currency: "EUR",
-        leadId: "testLeadId"
+      // Mocked field values
+      caSiteId: "1739",
+      caCollectionDomain: "collect.commander1.com",
+      caEvent: "generate_lead",
+      value: "5375.00",
+      currency: "EUR",
+      leadId: "testLeadId",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2174,7 +2235,10 @@ scenarios:
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
       caEvent: "login",
-      method: "Linkedin"
+      method: "Linkedin",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2189,7 +2253,10 @@ scenarios:
       caCollectionDomain: "collect.commander1.com",
       caEvent: "page_view",
       pageType: "home",
-      pageName: "TestPage"
+      pageName: "TestPage",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2327,6 +2394,7 @@ scenarios:
       productCoupon: "PROMO5",
       productCustom: "",
       pUserId: "123456789",
+      pUserEmail: "test@test.it",
       userConsentCategories: [1,3,4]
     };
 
@@ -2463,7 +2531,8 @@ scenarios:
       productDiscount: "",
       productCoupon: "PROMO5",
       productCustom: "",
-      rUserId: "123456789",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
       userConsentCategories: [1,3,4]
     };
 
@@ -2592,7 +2661,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2606,7 +2678,10 @@ scenarios:
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
       caEvent: "search",
-      searchTerm: "t-shirts"
+      searchTerm: "t-shirts",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2621,7 +2696,10 @@ scenarios:
       caCollectionDomain: "collect.commander1.com",
       caEvent: "select_content",
       contentType: "product",
-      itemId: "34480784411793309"
+      itemId: "34480784411793309",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2748,7 +2826,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2762,7 +2843,10 @@ scenarios:
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
       caEvent: "sign_up",
-      signupMethod: "Facebook"
+      signupMethod: "Facebook",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -2890,7 +2974,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -3018,7 +3105,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -3145,7 +3235,10 @@ scenarios:
       productListPosition: "",
       productDiscount: "",
       productCoupon: "PROMO5",
-      productCustom: ""
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userConsentCategories: [1,3,4]
     };
 
     // Call runCode to run the template's code.
@@ -3157,6 +3250,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 21/10/2021, 15:24:02
+Created on 9/11/2021, 17:06:53
 
 
