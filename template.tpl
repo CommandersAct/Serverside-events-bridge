@@ -72,6 +72,34 @@ ___TEMPLATE_PARAMETERS___
     "help": "Commanders Act domain for event collection. Default: \"collect.commander1.com\". Do not change it unless it\u0027s pointed by your Commanders Act account manager."
   },
   {
+    "type": "TEXT",
+    "name": "customEventId",
+    "displayName": "Facebook Custom Event Id:",
+    "simpleValueType": true,
+    "enablingConditions": [
+      {
+        "paramName": "isCustomSettingsOn",
+        "paramValue": true,
+        "type": "EQUALS"
+      }
+    ],
+    "help": "Instead of using our generated value for the \"Event Id\", you can use a previously generated one by passing it in this field."
+  },
+  {
+    "type": "TEXT",
+    "name": "testEventCode",
+    "displayName": "Facebook Test Event Code:",
+    "simpleValueType": true,
+    "enablingConditions": [
+      {
+        "paramName": "isCustomSettingsOn",
+        "paramValue": true,
+        "type": "EQUALS"
+      }
+    ],
+    "help": "Code used to verify that your server events are received correctly by Facebook. Use this code to test your server events in the \"Test Events\" feature - See Facebook \"Events Manager\" for more details."
+  },
+  {
     "type": "SELECT",
     "name": "caEvent",
     "displayName": "Commanders Act Event:",
@@ -1199,7 +1227,20 @@ function mapItem(p) {
     };
 }
 
+function getCustomEventId() {
+  if ((typeof data.customEventId !== "undefined") && (data.customEventId !== "")) return data.customEventId;
+  else return "";
+}
+
+function getTestCode() {
+  if ((typeof data.testEventCode !== "undefined") && (data.testEventCode !== "")) return data.testEventCode;
+  else return "";
+}
+
 var caEventData = {};
+caEventData.integrations = {};
+caEventData.integrations.facebook = {};
+
 var config = {
     idSite: data.caSiteId,
     collectionDomain: ((typeof data.caCollectionDomain !== "undefined") && (data.caCollectionDomain !== ""))?data.caCollectionDomain:"collect.commander1.com"
@@ -1216,6 +1257,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1229,6 +1272,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1240,6 +1285,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1251,6 +1298,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1264,6 +1313,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1276,6 +1327,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1286,6 +1339,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
   break;      
   case "page_view":
     caEventData.type = data.pageType;
@@ -1294,6 +1349,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
   break;
   case "purchase":
     caEventData.id = data.transactionId;
@@ -1310,6 +1367,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.pUserId;
     caEventData.user.email = data.pUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1329,6 +1388,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1340,6 +1401,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1350,6 +1413,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
   break;
   case "select_content":
     caEventData.content_type = data.contentType;
@@ -1358,6 +1423,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
   break;
   case "select_item":
     caEventData.item_list_name = data.itemListName;
@@ -1365,6 +1432,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1375,6 +1444,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
   break;
   case "view_cart":
     caEventData.value = makeNumber(data.value);
@@ -1383,6 +1454,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1394,6 +1467,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1404,6 +1479,8 @@ switch(data.caEvent) {
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
     caEventData.user.consent_categories = data.userConsentCategories;
+    caEventData.integrations.facebook.event_id = getCustomEventId();
+    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1554,6 +1631,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "add_payment_info",
         paymentMethod: "card",
         revenue: "5375.50",
@@ -1687,6 +1766,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "add_shipping_info",
         shippingTier: "Next-day",
         value: "5375.10",
@@ -1820,6 +1901,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "add_to_cart",
         value: "5375.00",
         currency: "EUR",
@@ -1951,6 +2034,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "add_to_wishlist",
         value: "5375.00",
         currency: "EUR",
@@ -2082,6 +2167,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "begin_checkout",
         revenue: "5375.00",
         value: "5375.00",
@@ -2215,6 +2302,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "generate_lead",
       value: "5375.00",
       currency: "EUR",
@@ -2234,6 +2323,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "login",
       method: "Linkedin",
       oUserId: "123456789",
@@ -2251,6 +2342,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "page_view",
       pageType: "home",
       pageName: "TestPage",
@@ -2269,6 +2362,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "purchase",
         transactionId: "testTransactionId",
         paymentMethod: "card",
@@ -2408,6 +2503,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "refund",
         transactionId: "testTransactionId",
         value: "5375.75",
@@ -2546,6 +2643,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "remove_from_cart",
         value: "5375.00",
         currency: "EUR",
@@ -2677,6 +2776,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "search",
       searchTerm: "t-shirts",
       oUserId: "123456789",
@@ -2694,6 +2795,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "select_content",
       contentType: "product",
       itemId: "34480784411793309",
@@ -2712,6 +2815,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "select_item",
       itemListName: "testItemListName",
       productArray: [{
@@ -2842,6 +2947,8 @@ scenarios:
       // Mocked field values
       caSiteId: "1739",
       caCollectionDomain: "collect.commander1.com",
+      customEventId: "123456789",
+      testEventCode: "TEST12345",
       caEvent: "sign_up",
       signupMethod: "Facebook",
       oUserId: "123456789",
@@ -2859,6 +2966,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "view_cart",
         value: "5375.00",
         currency: "EUR",
@@ -2990,6 +3099,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "view_item",
         revenue: "5375.00",
         currency: "EUR",
@@ -3121,6 +3232,8 @@ scenarios:
         // Mocked field values
         caSiteId: "1739",
         caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
         caEvent: "view_item_list",
         itemListName: "testItemListName",
         productArray: [{
@@ -3250,6 +3363,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 9/11/2021, 17:06:53
+Created on 22/11/2021, 14:45:24
 
 
