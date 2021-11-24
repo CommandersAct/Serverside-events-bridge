@@ -601,7 +601,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "taxAmount",
         "displayName": "Tax Amount:",
         "simpleValueType": true,
-        "help": "Shipping cost associated with a transaction.",
+        "help": "Tax amount associated with a transaction.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1380,7 +1380,6 @@ switch(data.caEvent) {
     caEventData.currency = data.currency;
     caEventData.type = data.conversionType;
     caEventData.payment_method = data.paymentMethod;
-    caEventData.status = data.status;
     caEventData.shipping_amount = makeNumber(data.shippingAmount);
     caEventData.tax_amount = makeNumber(data.taxAmount);
     caEventData.coupon = data.coupon;
@@ -3363,6 +3362,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 24/11/2021, 12:38:47
+Created on 24/11/2021, 17:43:08
 
 
