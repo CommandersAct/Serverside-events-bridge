@@ -668,7 +668,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pageType",
         "displayName": "Page Type:",
         "simpleValueType": true,
-        "help": "Page category. Recommanded predefined types: \"home\", \"landing\", \"product_list\", \"product\", \"content_list\", \"content\", \"search\", \"funnel\", \"success\", \"funnel_confirmation\", \"account\", \"cart\", \"legal\" (e.g. Privacy Policy). All without quotes.",
+        "help": "Page category. Recommended predefined types: \"home\", \"landing\", \"product_list\", \"product\", \"content_list\", \"content\", \"search\", \"funnel\", \"success\", \"funnel_confirmation\", \"account\", \"cart\", \"legal\" (e.g. Privacy Policy). All without quotes.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1322,7 +1322,7 @@ switch(data.caEvent) {
   case "generate_lead":
     caEventData.value = makeNumber(data.value);
     caEventData.currency = data.currency;
-    caEventData.id = data.id;
+    caEventData.id = data.leadId;
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
@@ -3363,6 +3363,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 22/11/2021, 14:45:24
+Created on 24/11/2021, 12:38:47
 
 
