@@ -15,6 +15,8 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://community.commandersact.com/tagcommander/user-manual/serverside-v2/facebook-conversion-api/facebook-capi-through-gtm"
 versions:
+  - sha: 4f2ef01c4ef38dfebacfd0aca44e797626d53cf8
+    changeNotes: Updated tooltips and removed unused field.
   - sha: 1e83680e3cd0637fa76c750277b126076aeb38d8
     changeNotes: Updated core capabilities.
   - sha: e16b9c6f2e5f3839fe15cafe48b0a16247153950
