@@ -176,10 +176,32 @@ ___TEMPLATE_PARAMETERS___
       {
         "value": "view_item_list",
         "displayValue": "View Item List"
+      },
+      {
+        "value": "custom_event",
+        "displayValue": "[Custom Event]"
       }
     ],
     "simpleValueType": true,
     "alwaysInSummary": true,
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ]
+  },
+  {
+    "type": "TEXT",
+    "name": "customEventName",
+    "displayName": "Custom Event Name:",
+    "simpleValueType": true,
+    "enablingConditions": [
+      {
+        "paramName": "caEvent",
+        "paramValue": "custom_event",
+        "type": "EQUALS"
+      }
+    ],
     "valueValidators": [
       {
         "type": "NON_EMPTY"
@@ -790,6 +812,47 @@ ___TEMPLATE_PARAMETERS___
           }
         ]
       }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "caEvent",
+        "paramValue": "custom_event",
+        "type": "NOT_EQUALS"
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
+    "name": "eventCustomFields",
+    "displayName": "Custom Event Fields",
+    "groupStyle": "ZIPPY_OPEN",
+    "subParams": [
+      {
+        "type": "SIMPLE_TABLE",
+        "name": "customEventTable",
+        "displayName": "",
+        "simpleTableColumns": [
+          {
+            "defaultValue": "",
+            "displayName": "FIeld Name:",
+            "name": "field_name",
+            "type": "TEXT"
+          },
+          {
+            "defaultValue": "",
+            "displayName": "Field Value:",
+            "name": "field_value",
+            "type": "TEXT"
+          }
+        ]
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "caEvent",
+        "paramValue": "custom_event",
+        "type": "EQUALS"
+      }
     ]
   },
   {
@@ -1136,7 +1199,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pUserEmail",
         "displayName": "User Email:",
         "simpleValueType": true,
-        "help": "User Email. (*) This is required if \"User Id\" is not set.",
+        "help": "User email. (*) This is required if \"User Id\" is not set.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -1163,7 +1226,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "oUserEmail",
         "displayName": "User Email:",
         "simpleValueType": true,
-        "help": "User Email.",
+        "help": "User email.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1171,6 +1234,62 @@ ___TEMPLATE_PARAMETERS___
             "type": "NOT_EQUALS"
           }
         ]
+      },
+      {
+        "type": "TEXT",
+        "name": "userPhone",
+        "displayName": "User Phone:",
+        "simpleValueType": true,
+        "help": "User phone."
+      },
+      {
+        "type": "TEXT",
+        "name": "userGender",
+        "displayName": "User Gender:",
+        "simpleValueType": true,
+        "help": "User gender."
+      },
+      {
+        "type": "TEXT",
+        "name": "userBirthdate",
+        "displayName": "User Birthdate",
+        "simpleValueType": true,
+        "help": "User birthdate"
+      },
+      {
+        "type": "TEXT",
+        "name": "userFirstName",
+        "displayName": "User First Name:",
+        "simpleValueType": true,
+        "help": "User first name."
+      },
+      {
+        "type": "TEXT",
+        "name": "userLastName",
+        "displayName": "User Last Name:",
+        "simpleValueType": true,
+        "help": "User last name."
+      },
+      {
+        "type": "TEXT",
+        "name": "userCity",
+        "displayName": "User City:",
+        "simpleValueType": true,
+        "help": "User city."
+      },
+      {
+        "type": "TEXT",
+        "name": "userCountry",
+        "displayName": "User Country:",
+        "simpleValueType": true,
+        "help": "User country."
+      },
+      {
+        "type": "TEXT",
+        "name": "userZipcode",
+        "displayName": "User Zipcode:",
+        "simpleValueType": true,
+        "help": "User zipcode."
       },
       {
         "type": "SELECT",
@@ -1240,11 +1359,24 @@ function getTestCode() {
 var caEventData = {};
 caEventData.integrations = {};
 caEventData.integrations.facebook = {};
+caEventData.integrations.facebook.event_id = getCustomEventId();
+caEventData.test_code = getTestCode();
 
 var config = {
     idSite: data.caSiteId,
     collectionDomain: ((typeof data.caCollectionDomain !== "undefined") && (data.caCollectionDomain !== ""))?data.caCollectionDomain:"collect.commander1.com"
 };
+
+function setAdditionalUserProperties() {
+  if (data.userPhone) caEventData.user.phone = data.userPhone;
+  if (data.userGender) caEventData.user.gender = data.userGender;
+  if (data.userBirthdate) caEventData.user.birthdate = data.userBirthdate;
+  if (data.userFirstName) caEventData.user.firstname = data.userFirstName;
+  if (data.userLastName) caEventData.user.lastname = data.userLastName;
+  if (data.userCity) caEventData.user.city = data.userCity;
+  if (data.userCountry) caEventData.user.country = data.userCountry;
+  if (data.userZipcode) caEventData.user.zipcode = data.userZipcode;
+}
 
 if (typeof data.productArray === "undefined") data.productArray = [];
 switch(data.caEvent) {
@@ -1256,9 +1388,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1271,9 +1402,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1284,9 +1414,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1297,9 +1426,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1312,9 +1440,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1326,9 +1453,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1338,9 +1464,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
   break;      
   case "page_view":
     caEventData.type = data.pageType;
@@ -1348,9 +1473,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
   break;
   case "purchase":
     caEventData.id = data.transactionId;
@@ -1366,9 +1490,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.pUserId;
     caEventData.user.email = data.pUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1386,9 +1509,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1399,9 +1521,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1411,9 +1532,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
   break;
   case "select_content":
     caEventData.content_type = data.contentType;
@@ -1421,18 +1541,16 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
   break;
   case "select_item":
     caEventData.item_list_name = data.itemListName;
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1442,9 +1560,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
   break;
   case "view_cart":
     caEventData.value = makeNumber(data.value);
@@ -1452,9 +1569,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1465,9 +1581,8 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
@@ -1477,12 +1592,25 @@ switch(data.caEvent) {
     caEventData.user = {};
     caEventData.user.id = data.oUserId;
     caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
     caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.integrations.facebook.event_id = getCustomEventId();
-    caEventData.test_code = getTestCode();
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
+  break;
+  default:
+    caEventData.user = {};
+    caEventData.user.id = data.oUserId;
+    caEventData.user.email = data.oUserEmail;
+    setAdditionalUserProperties();
+    caEventData.user.consent_categories = data.userConsentCategories;
+    if (data.customEventTable) {
+      // https://community.commandersact.com/datacommander/connectors-and-vendors/facebook/facebook-conversions-api#additional-custom-facebook-parameters
+      caEventData.integrations.facebook.custom_data = {};
+      for (let i = 0; i < data.customEventTable.length; i++) 
+        caEventData.integrations.facebook.custom_data[data.customEventTable[i].field_name] = data.customEventTable[i].field_value;
+      //log(caEventData.integrations.facebook.custom_data);
+    }
   break;
 }
 
@@ -1497,7 +1625,12 @@ if (queryPermission('inject_script', tcLib)) {
  
 function onSuccess() {
   log('START | Triggering cact...');
-  callInWindow('cact', 'trigger', data.caEvent, caEventData, config);
+  let eventName = "";
+  if (data.caEvent === "custom_event") eventName = data.customEventName;
+  else eventName = data.caEvent;
+  log(eventName);
+  log(caEventData);
+  callInWindow('cact', 'trigger', eventName, caEventData, config);
   log('END | Triggering cact');
   data.gtmOnSuccess();
 }
@@ -1752,6 +1885,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -1887,6 +2028,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2020,6 +2169,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2153,6 +2310,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2288,6 +2453,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2309,6 +2482,14 @@ scenarios:
       leadId: "testLeadId",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2328,6 +2509,14 @@ scenarios:
       method: "Linkedin",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2348,6 +2537,14 @@ scenarios:
       pageName: "TestPage",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2489,6 +2686,14 @@ scenarios:
       productCustom: "",
       pUserId: "123456789",
       pUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2629,6 +2834,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2762,6 +2975,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2781,6 +3002,14 @@ scenarios:
       searchTerm: "t-shirts",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2801,6 +3030,14 @@ scenarios:
       itemId: "34480784411793309",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2933,6 +3170,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -2952,6 +3197,14 @@ scenarios:
       signupMethod: "Facebook",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -3085,6 +3338,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -3218,6 +3479,14 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -3350,6 +3619,156 @@ scenarios:
       productCustom: "",
       oUserId: "123456789",
       oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
+      userConsentCategories: [1,3,4]
+    };
+
+    // Call runCode to run the template's code.
+    runCode(mockData);
+
+    assertThat('window.cact').isDefined();
+- name: 'Test #19 | Event | [Custom Event]'
+  code: |-
+    const mockData = {
+        // Mocked field values
+        caSiteId: "1739",
+        caCollectionDomain: "collect.commander1.com",
+        customEventId: "123456789",
+        testEventCode: "TEST12345",
+        caEvent: "custom_event",
+        customEventName: "testCustomEvent",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
+        itemListName: "testItemListName",
+        productArray: [{
+                "defaultLanguage": null,
+                "cart_item_cod8": "",
+                "cart_item_cod10": "14548",
+                "cart_item_name": "Wallet",
+                "cart_item_unitprice_ati": "275",
+                "cart_item_unitprice_tf": "225.41",
+                "cart_item_discount_ati": "275",
+                "cart_item_discount_tf": "225.41",
+                "cart_item_unit_discounted_ati": "275",
+                "cart_item_unit_discounted_tf": "225.41",
+                "cart_item_quantity": 1,
+                "cart_item_macro_category": "Pelletteria",
+                "cart_item_macro_category_id": "3074457345616676670",
+                "cart_item_micro_category": "Astucci portacarte",
+                "cart_item_micro_category_id": "3074457345616676709",
+                "cart_item_brand": "MYBRAND",
+                "cart_item_brand_id": "MYBRANDID",
+                "cart_item_colors": ["Black", "White"],
+                "cart_item_color_id": "",
+                "cart_item_legacy_macro_id": "2774",
+                "cart_item_legacy_micro_id": "21383",
+                "cart_item_product_id": "34480784411793309",
+                "cart_item_product_variant_id": "34480784411793399",
+                "cart_item_eng_title": "Wallet 6cc",
+                "cart_item_engraved": false,
+                "cart_item_engravable": false,
+                "cart_item_embossed": false,
+                "cart_item_embossable": true,
+                "cart_item_adjusted": false,
+                "cart_item_adjustable": false,
+                "cart_item_collection": "MyCollection",
+                "cart_item_subcollection": "",
+                "cart_item_line": "",
+                "cart_item_casematerial": "",
+                "cart_item_jewelmaterial": "",
+                "cart_item_leathermaterial": "",
+                "cart_item_strapmaterial": "",
+                "cart_item_mfPartNumber": "14548",
+                "cart_item_skuMfPartNumber": "4017941145482",
+                "cart_item_sellable": "ONLINE",
+                "cart_item_size": [{
+                        "SizeId": "OneSize",
+                        "StockLevel": "Available"
+                    }
+                ],
+                "cart_item_availability": true,
+                "cart_item_line_id": "940562471838|2430642|0400571166790"
+            }, {
+                "defaultLanguage": null,
+                "cart_item_cod8": "",
+                "cart_item_cod10": "125582",
+                "cart_item_name": "Chronograph",
+                "cart_item_unitprice_ati": "5100.80",
+                "cart_item_unitprice_tf": "4180.33",
+                "cart_item_discount_ati": "5100",
+                "cart_item_discount_tf": "4180.33",
+                "cart_item_unit_discounted_ati": "5100",
+                "cart_item_unit_discounted_tf": "4180.33",
+                "cart_item_quantity": 1,
+                "cart_item_macro_category": "Orologi",
+                "cart_item_macro_category_id": "3074457345616676672",
+                "cart_item_micro_category": "Orologi da polso",
+                "cart_item_micro_category_id": "3074457345616676729",
+                "cart_item_brand": "MYBRAND",
+                "cart_item_brand_id": "MYBRANDID",
+                "cart_item_colors": ["Silver", "Orange"],
+                "cart_item_color_id": "",
+                "cart_item_legacy_macro_id": "2776",
+                "cart_item_legacy_micro_id": "21376",
+                "cart_item_product_id": "19971654706583601",
+                "cart_item_product_variant_id": "19971654706583602",
+                "cart_item_eng_title": "Chronograph",
+                "cart_item_engraved": false,
+                "cart_item_engravable": false,
+                "cart_item_embossed": false,
+                "cart_item_embossable": false,
+                "cart_item_adjusted": false,
+                "cart_item_adjustable": false,
+                "cart_item_collection": "MyCollection",
+                "cart_item_subcollection": "",
+                "cart_item_line": "",
+                "cart_item_casematerial": "Acciaio",
+                "cart_item_jewelmaterial": "",
+                "cart_item_leathermaterial": "",
+                "cart_item_strapmaterial": "",
+                "cart_item_mfPartNumber": "125582",
+                "cart_item_skuMfPartNumber": "7612582328620",
+                "cart_item_sellable": "ONLINE",
+                "cart_item_size": [{
+                        "SizeId": "OneSize",
+                        "StockLevel": "Available"
+                    }
+                ],
+                "cart_item_availability": true,
+                "cart_item_line_id": "940562471838|2430643|0400572466936"
+            }
+        ],
+      productId: "cart_item_product_id",
+      productName: "cart_item_name",
+      productPrice: "cart_item_unitprice_ati",
+      productQuantity: "cart_item_quantity",
+      productCurrency: "EUR",
+      productCategory1: "cart_item_macro_category_id",
+      productCategory2: "cart_item_micro_category_id",
+      productBrand: "cart_item_brand",
+      productSize: "",
+      productColors: "cart_item_colors",
+      productVariant: "cart_item_product_variant_id",
+      productListPosition: "",
+      productDiscount: "",
+      productCoupon: "PROMO5",
+      productCustom: "",
+      oUserId: "123456789",
+      oUserEmail: "test@test.it",
+      userPhone: "00393399988776",
+      userGender: "male",
+      userBirthdate: "12-31-1900",
+      userFirstName: "testFirstName",
+      userLastName: "testLastName",
+      userCity: "Milan",
+      userCountry: "Italy",
+      userZipcode: "20100",
       userConsentCategories: [1,3,4]
     };
 
@@ -3362,6 +3781,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 24/11/2021, 17:43:08
+Created on 11/3/2022, 14:40:26
 
 
