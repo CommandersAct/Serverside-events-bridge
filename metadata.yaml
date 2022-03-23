@@ -22,7 +22,7 @@ versions:
   - sha: 1e83680e3cd0637fa76c750277b126076aeb38d8
     changeNotes: Updated core capabilities.
   - sha: e16b9c6f2e5f3839fe15cafe48b0a16247153950
-    changeNotes: Adding support for Facebook custom fields: "Custom Event Id" and "Test Code".
+    changeNotes: Adding support for Facebook custom fields "Custom Event Id" and "Test Code".
   - sha: 3972f0d75f6263acdbaa9e4a05582669b7f86801
     changeNotes: Updated core capabilities.
   - sha: 8c7a0732114c0756346b91635d8320883cd63466
