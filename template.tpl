@@ -100,6 +100,20 @@ ___TEMPLATE_PARAMETERS___
     "help": "Code used to verify that your server events are received correctly by Facebook. Use this code to test your server events in the \"Test Events\" feature - See Facebook \"Events Manager\" for more details."
   },
   {
+    "type": "TEXT",
+    "name": "callbackFunction",
+    "displayName": "Callback Function:",
+    "simpleValueType": true,
+    "help": "A callback function that’s called after triggering the selected event. More details are available following this \u003ca href\u003d\"https://community.commandersact.com/platform-x/features/integrations/sources/sources-catalog/javascript-sdk#get-information\"\u003eLINK\u003c/a\u003e",
+    "enablingConditions": [
+      {
+        "paramName": "isCustomSettingsOn",
+        "paramValue": true,
+        "type": "EQUALS"
+      }
+    ]
+  },
+  {
     "type": "SELECT",
     "name": "caEvent",
     "displayName": "Commanders Act Event:",
@@ -1622,7 +1636,7 @@ if (queryPermission('inject_script', tcLib)) {
   log('DEBUG | postScriptUrl: Script load failed due to permissions mismatch.');
   data.gtmOnFailure();
 }
- 
+
 function onSuccess() {
   log('START | Triggering cact...');
   let eventName = "";
@@ -1630,7 +1644,7 @@ function onSuccess() {
   else eventName = data.caEvent;
   log(eventName);
   log(caEventData);
-  callInWindow('cact', 'trigger', eventName, caEventData, config);
+  callInWindow('cact', 'trigger', eventName, caEventData, config, (data.callbackFunction)?data.callbackFunction:undefined);
   log('END | Triggering cact');
   data.gtmOnSuccess();
 }
@@ -1740,6 +1754,10 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "https://ct-sandbox.commandersdev.com/*"
+              },
+              {
+                "type": 1,
+                "string": "https://commanders-act.s3.eu-central-1.amazonaws.com/*"
               }
             ]
           }
@@ -1759,6 +1777,11 @@ ___TESTS___
 scenarios:
 - name: 'Test #1 | Event | Add Payment Info'
   code: |-
+    const log = require('logToConsole');
+    function myCallback() {
+      log("myCallback is triggered!!!");
+    }
+
     const mockData = {
         // Mocked field values
         caSiteId: "1739",
@@ -1767,6 +1790,7 @@ scenarios:
         testEventCode: "TEST12345",
         caEvent: "add_payment_info",
         paymentMethod: "card",
+        callbackFunction: myCallback,
         revenue: "5375.50",
         currency: "EUR",
         coupon: "PROMO5",
@@ -3643,7 +3667,7 @@ scenarios:
         customEventId: "123456789",
         testEventCode: "TEST12345",
         caEvent: "custom_event",
-        customEventName: "testCustomEvent",
+        customEventName: "subscribe",
         customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         itemListName: "testItemListName",
         productArray: [{
@@ -3781,6 +3805,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 11/3/2022, 14:40:26
+Created on 19/7/2022, 11:21:48
 
 
