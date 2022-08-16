@@ -225,7 +225,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "eventFields",
-    "displayName": "Event fields",
+    "displayName": "Standard fields",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
@@ -838,7 +838,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "eventCustomFields",
-    "displayName": "Custom Event Fields",
+    "displayName": "Custom Fields",
     "groupStyle": "ZIPPY_OPEN",
     "subParams": [
       {
@@ -859,13 +859,6 @@ ___TEMPLATE_PARAMETERS___
             "type": "TEXT"
           }
         ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "caEvent",
-        "paramValue": "custom_event",
-        "type": "EQUALS"
       }
     ]
   },
@@ -1158,6 +1151,11 @@ ___TEMPLATE_PARAMETERS___
         "paramName": "caEvent",
         "paramValue": "view_item_list",
         "type": "EQUALS"
+      },
+      {
+        "paramName": "caEvent",
+        "paramValue": "custom_event",
+        "type": "EQUALS"
       }
     ]
   },
@@ -1393,239 +1391,56 @@ function setAdditionalUserProperties() {
 }
 
 if (typeof data.productArray === "undefined") data.productArray = [];
-switch(data.caEvent) {
-  case "add_payment_info":
-    caEventData.payment_method = data.paymentMethod;
-    caEventData.revenue = makeNumber(data.revenue);
-    caEventData.currency = data.currency;
-    caEventData.coupon = data.coupon;
+if (data.caEvent) {
+	if (data.caEvent === "generate_lead") {
+		if (data.leadId) caEventData.id = data.leadId;
+	}
+	else if ((data.caEvent === "purchase") || (data.caEvent === "refund")) {
+		if (data.transactionId) caEventData.id = data.transactionId;
+	}
+	if (data.caEvent === "login") {
+		if (data.method) caEventData.method = data.method;
+	}
+	else if (data.caEvent === "sign_up") {
+		if (data.signupMethod) caEventData.method = data.signupMethod;
+	}
+	if (data.caEvent === "page_view") {
+		if (data.pageType) caEventData.type = data.pageType;
+	}
+	else if ((data.caEvent === "purchase") || (data.caEvent === "refund")) {
+		if (data.conversionType) caEventData.type = data.conversionType;
+	}
+	if (data.paymentMethod) caEventData.payment_method = data.paymentMethod;
+	if (data.shippingTier) caEventData.shipping_tier = data.shippingTier;
+	if (data.shippingAmount) caEventData.shipping_amount = makeNumber(data.shippingAmount);
+    if (data.revenue) caEventData.revenue = makeNumber(data.revenue);
+	if (data.value) caEventData.value = makeNumber(data.value);
+    if (data.currency) caEventData.currency = data.currency;
+    if (data.coupon) caEventData.coupon = data.coupon;
+	if (data.pageName) caEventData.name = data.pageName;
+	if (data.status) caEventData.status = data.status;
+	if (data.taxAmount) caEventData.tax_amount = makeNumber(data.taxAmount);
+	if (data.searchTerm) caEventData.search_term = data.searchTerm;
+	if (data.contentType) caEventData.content_type = data.contentType;
+	if (data.itemId) caEventData.item_id = data.itemId;
+	if (data.itemListName) caEventData.item_list_name = data.itemListName;
     caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
+	if (data.caEvent === "purchase") {
+		if (data.pUserId) caEventData.user.id = data.pUserId;
+		if (data.pUserEmail) caEventData.user.email = data.pUserEmail;
+	} else {
+		if (data.oUserId) caEventData.user.id = data.oUserId;
+		if (data.oUserEmail) caEventData.user.email = data.oUserEmail;
+	}
     setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
+    if (data.userConsentCategories) caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
     });
-  break;
-  case "add_shipping_info":
-    caEventData.shipping_tier = data.shippingTier;
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.coupon = data.coupon;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "add_to_cart":
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;  
-  case "add_to_wishlist":
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;    
-  case "begin_checkout":
-    caEventData.revenue = makeNumber(data.revenue);
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.coupon = data.coupon;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "generate_lead":
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.id = data.leadId;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "login":
-    caEventData.method = data.method;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-  break;      
-  case "page_view":
-    caEventData.type = data.pageType;
-    caEventData.name = data.pageName;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-  break;
-  case "purchase":
-    caEventData.id = data.transactionId;
-    caEventData.revenue = makeNumber(data.revenue);
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.type = data.conversionType;
-    caEventData.payment_method = data.paymentMethod;
-    caEventData.status = data.status;
-    caEventData.shipping_amount = makeNumber(data.shippingAmount);
-    caEventData.tax_amount = makeNumber(data.taxAmount);
-    caEventData.coupon = data.coupon;
-    caEventData.user = {};
-    caEventData.user.id = data.pUserId;
-    caEventData.user.email = data.pUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "refund":
-    caEventData.id = data.transactionId;
-    caEventData.revenue = makeNumber(data.revenue);
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.type = data.conversionType;
-    caEventData.payment_method = data.paymentMethod;
-    caEventData.shipping_amount = makeNumber(data.shippingAmount);
-    caEventData.tax_amount = makeNumber(data.taxAmount);
-    caEventData.coupon = data.coupon;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "remove_from_cart":
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "search":
-    caEventData.search_term = data.searchTerm;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-  break;
-  case "select_content":
-    caEventData.content_type = data.contentType;
-    caEventData.item_id = data.itemId;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-  break;
-  case "select_item":
-    caEventData.item_list_name = data.itemListName;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "sign_up":
-    caEventData.method = data.signupMethod;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-  break;
-  case "view_cart":
-    caEventData.value = makeNumber(data.value);
-    caEventData.currency = data.currency;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "view_item":
-    caEventData.revenue = makeNumber(data.revenue);
-    caEventData.currency = data.currency;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  case "view_item_list":
-    caEventData.item_list_name = data.itemListName;
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    caEventData.items = data.productArray.map(function (p) {
-      return mapItem(p);
-    });
-  break;
-  default:
-    caEventData.user = {};
-    caEventData.user.id = data.oUserId;
-    caEventData.user.email = data.oUserEmail;
-    setAdditionalUserProperties();
-    caEventData.user.consent_categories = data.userConsentCategories;
-    if (data.customEventTable) {
-      // https://community.commandersact.com/datacommander/connectors-and-vendors/facebook/facebook-conversions-api#additional-custom-facebook-parameters
-      caEventData.integrations.facebook.custom_data = {};
+	if (data.customEventTable) {
       for (let i = 0; i < data.customEventTable.length; i++) 
-        caEventData.integrations.facebook.custom_data[data.customEventTable[i].field_name] = data.customEventTable[i].field_value;
-      //log(caEventData.integrations.facebook.custom_data);
+        caEventData[data.customEventTable[i].field_name] = data.customEventTable[i].field_value;
     }
-  break;
 }
 
 if (queryPermission('inject_script', tcLib)) {
@@ -1794,6 +1609,7 @@ scenarios:
         revenue: "5375.50",
         currency: "EUR",
         coupon: "PROMO5",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -1925,289 +1741,160 @@ scenarios:
 
     assertThat('window.cact').isDefined();
 - name: 'Test #2 | Event | Add Shipping Info'
-  code: |-
-    const mockData = {
-        // Mocked field values
-        caSiteId: "1739",
-        caCollectionDomain: "collect.commander1.com",
-        customEventId: "123456789",
-        testEventCode: "TEST12345",
-        caEvent: "add_shipping_info",
-        shippingTier: "Next-day",
-        value: "5375.10",
-        currency: "EUR",
-        coupon: "PROMO5",
-        productArray: [{
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "14548",
-                "cart_item_name": "Wallet",
-                "cart_item_unitprice_ati": "275",
-                "cart_item_unitprice_tf": "225.41",
-                "cart_item_discount_ati": "275",
-                "cart_item_discount_tf": "225.41",
-                "cart_item_unit_discounted_ati": "275",
-                "cart_item_unit_discounted_tf": "225.41",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Pelletteria",
-                "cart_item_macro_category_id": "3074457345616676670",
-                "cart_item_micro_category": "Astucci portacarte",
-                "cart_item_micro_category_id": "3074457345616676709",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Black", "White"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2774",
-                "cart_item_legacy_micro_id": "21383",
-                "cart_item_product_id": "34480784411793309",
-                "cart_item_product_variant_id": "34480784411793399",
-                "cart_item_eng_title": "Wallet 6cc",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": true,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "14548",
-                "cart_item_skuMfPartNumber": "4017941145482",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430642|0400571166790"
-            }, {
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "125582",
-                "cart_item_name": "Chronograph",
-                "cart_item_unitprice_ati": "5100.80",
-                "cart_item_unitprice_tf": "4180.33",
-                "cart_item_discount_ati": "5100",
-                "cart_item_discount_tf": "4180.33",
-                "cart_item_unit_discounted_ati": "5100",
-                "cart_item_unit_discounted_tf": "4180.33",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Orologi",
-                "cart_item_macro_category_id": "3074457345616676672",
-                "cart_item_micro_category": "Orologi da polso",
-                "cart_item_micro_category_id": "3074457345616676729",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Silver", "Orange"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2776",
-                "cart_item_legacy_micro_id": "21376",
-                "cart_item_product_id": "19971654706583601",
-                "cart_item_product_variant_id": "19971654706583602",
-                "cart_item_eng_title": "Chronograph",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": false,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "Acciaio",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "125582",
-                "cart_item_skuMfPartNumber": "7612582328620",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430643|0400572466936"
-            }
-        ],
-      productId: "cart_item_product_id",
-      productName: "cart_item_name",
-      productPrice: "cart_item_unitprice_ati",
-      productQuantity: "cart_item_quantity",
-      productCurrency: "EUR",
-      productCategory1: "cart_item_macro_category_id",
-      productCategory2: "cart_item_micro_category_id",
-      productBrand: "cart_item_brand",
-      productSize: "",
-      productColors: "cart_item_colors",
-      productVariant: "cart_item_product_variant_id",
-      productListPosition: "",
-      productDiscount: "",
-      productCoupon: "PROMO5",
-      productCustom: "",
-      oUserId: "123456789",
-      oUserEmail: "test@test.it",
-      userPhone: "00393399988776",
-      userGender: "male",
-      userBirthdate: "12-31-1900",
-      userFirstName: "testFirstName",
-      userLastName: "testLastName",
-      userCity: "Milan",
-      userCountry: "Italy",
-      userZipcode: "20100",
-      userConsentCategories: [1,3,4]
-    };
-
-    // Call runCode to run the template's code.
-    runCode(mockData);
-
-    assertThat('window.cact').isDefined();
+  code: "const mockData = {\n    // Mocked field values\n    caSiteId: \"1739\",\n\
+    \    caCollectionDomain: \"collect.commander1.com\",\n    customEventId: \"123456789\"\
+    ,\n    testEventCode: \"TEST12345\",\n    caEvent: \"add_shipping_info\",\n  \
+    \  shippingTier: \"Next-day\",\n    value: \"5375.10\",\n    currency: \"EUR\"\
+    ,\n    coupon: \"PROMO5\",\n    customEventTable: [{\"field_name\":\"fieldname1\"\
+    ,\"field_value\":\"fieldvalue1\"},{\"field_name\":\"fieldname2\",\"field_value\"\
+    :\"fieldvalue2\"}, {\"field_name\":\"fieldname3\",\"field_value\":\"fieldvalue3\"\
+    }],     \n    productArray: [{\n            \"defaultLanguage\": null,\n     \
+    \       \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\": \"14548\"\
+    ,\n            \"cart_item_name\": \"Wallet\",\n            \"cart_item_unitprice_ati\"\
+    : \"275\",\n            \"cart_item_unitprice_tf\": \"225.41\",\n            \"\
+    cart_item_discount_ati\": \"275\",\n            \"cart_item_discount_tf\": \"\
+    225.41\",\n            \"cart_item_unit_discounted_ati\": \"275\",\n         \
+    \   \"cart_item_unit_discounted_tf\": \"225.41\",\n            \"cart_item_quantity\"\
+    : 1,\n            \"cart_item_macro_category\": \"Pelletteria\",\n           \
+    \ \"cart_item_macro_category_id\": \"3074457345616676670\",\n            \"cart_item_micro_category\"\
+    : \"Astucci portacarte\",\n            \"cart_item_micro_category_id\": \"3074457345616676709\"\
+    ,\n            \"cart_item_brand\": \"MYBRAND\",\n            \"cart_item_brand_id\"\
+    : \"MYBRANDID\",\n            \"cart_item_colors\": [\"Black\", \"White\"],\n\
+    \            \"cart_item_color_id\": \"\",\n            \"cart_item_legacy_macro_id\"\
+    : \"2774\",\n            \"cart_item_legacy_micro_id\": \"21383\",\n         \
+    \   \"cart_item_product_id\": \"34480784411793309\",\n            \"cart_item_product_variant_id\"\
+    : \"34480784411793399\",\n            \"cart_item_eng_title\": \"Wallet 6cc\"\
+    ,\n            \"cart_item_engraved\": false,\n            \"cart_item_engravable\"\
+    : false,\n            \"cart_item_embossed\": false,\n            \"cart_item_embossable\"\
+    : true,\n            \"cart_item_adjusted\": false,\n            \"cart_item_adjustable\"\
+    : false,\n            \"cart_item_collection\": \"MyCollection\",\n          \
+    \  \"cart_item_subcollection\": \"\",\n            \"cart_item_line\": \"\",\n\
+    \            \"cart_item_casematerial\": \"\",\n            \"cart_item_jewelmaterial\"\
+    : \"\",\n            \"cart_item_leathermaterial\": \"\",\n            \"cart_item_strapmaterial\"\
+    : \"\",\n            \"cart_item_mfPartNumber\": \"14548\",\n            \"cart_item_skuMfPartNumber\"\
+    : \"4017941145482\",\n            \"cart_item_sellable\": \"ONLINE\",\n      \
+    \      \"cart_item_size\": [{\n                    \"SizeId\": \"OneSize\",\n\
+    \                    \"StockLevel\": \"Available\"\n                }\n      \
+    \      ],\n            \"cart_item_availability\": true,\n            \"cart_item_line_id\"\
+    : \"940562471838|2430642|0400571166790\"\n        }, {\n            \"defaultLanguage\"\
+    : null,\n            \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\"\
+    : \"125582\",\n            \"cart_item_name\": \"Chronograph\",\n            \"\
+    cart_item_unitprice_ati\": \"5100.80\",\n            \"cart_item_unitprice_tf\"\
+    : \"4180.33\",\n            \"cart_item_discount_ati\": \"5100\",\n          \
+    \  \"cart_item_discount_tf\": \"4180.33\",\n            \"cart_item_unit_discounted_ati\"\
+    : \"5100\",\n            \"cart_item_unit_discounted_tf\": \"4180.33\",\n    \
+    \        \"cart_item_quantity\": 1,\n            \"cart_item_macro_category\"\
+    : \"Orologi\",\n            \"cart_item_macro_category_id\": \"3074457345616676672\"\
+    ,\n            \"cart_item_micro_category\": \"Orologi da polso\",\n         \
+    \   \"cart_item_micro_category_id\": \"3074457345616676729\",\n            \"\
+    cart_item_brand\": \"MYBRAND\",\n            \"cart_item_brand_id\": \"MYBRANDID\"\
+    ,\n            \"cart_item_colors\": [\"Silver\", \"Orange\"],\n            \"\
+    cart_item_color_id\": \"\",\n            \"cart_item_legacy_macro_id\": \"2776\"\
+    ,\n            \"cart_item_legacy_micro_id\": \"21376\",\n            \"cart_item_product_id\"\
+    : \"19971654706583601\",\n            \"cart_item_product_variant_id\": \"19971654706583602\"\
+    ,\n            \"cart_item_eng_title\": \"Chronograph\",\n            \"cart_item_engraved\"\
+    : false,\n            \"cart_item_engravable\": false,\n            \"cart_item_embossed\"\
+    : false,\n            \"cart_item_embossable\": false,\n            \"cart_item_adjusted\"\
+    : false,\n            \"cart_item_adjustable\": false,\n            \"cart_item_collection\"\
+    : \"MyCollection\",\n            \"cart_item_subcollection\": \"\",\n        \
+    \    \"cart_item_line\": \"\",\n            \"cart_item_casematerial\": \"Acciaio\"\
+    ,\n            \"cart_item_jewelmaterial\": \"\",\n            \"cart_item_leathermaterial\"\
+    : \"\",\n            \"cart_item_strapmaterial\": \"\",\n            \"cart_item_mfPartNumber\"\
+    : \"125582\",\n            \"cart_item_skuMfPartNumber\": \"7612582328620\",\n\
+    \            \"cart_item_sellable\": \"ONLINE\",\n            \"cart_item_size\"\
+    : [{\n                    \"SizeId\": \"OneSize\",\n                    \"StockLevel\"\
+    : \"Available\"\n                }\n            ],\n            \"cart_item_availability\"\
+    : true,\n            \"cart_item_line_id\": \"940562471838|2430643|0400572466936\"\
+    \n        }\n    ],\n  productId: \"cart_item_product_id\",\n  productName: \"\
+    cart_item_name\",\n  productPrice: \"cart_item_unitprice_ati\",\n  productQuantity:\
+    \ \"cart_item_quantity\",\n  productCurrency: \"EUR\",\n  productCategory1: \"\
+    cart_item_macro_category_id\",\n  productCategory2: \"cart_item_micro_category_id\"\
+    ,\n  productBrand: \"cart_item_brand\",\n  productSize: \"\",\n  productColors:\
+    \ \"cart_item_colors\",\n  productVariant: \"cart_item_product_variant_id\",\n\
+    \  productListPosition: \"\",\n  productDiscount: \"\",\n  productCoupon: \"PROMO5\"\
+    ,\n  productCustom: \"\",\n  oUserId: \"123456789\",\n  oUserEmail: \"test@test.it\"\
+    ,\n  userPhone: \"00393399988776\",\n  userGender: \"male\",\n  userBirthdate:\
+    \ \"12-31-1900\",\n  userFirstName: \"testFirstName\",\n  userLastName: \"testLastName\"\
+    ,\n  userCity: \"Milan\",\n  userCountry: \"Italy\",\n  userZipcode: \"20100\"\
+    ,\n  userConsentCategories: [1,3,4]\n};\n\n// Call runCode to run the template's\
+    \ code.\nrunCode(mockData);\n\nassertThat('window.cact').isDefined();"
 - name: 'Test #3 | Event | Add to Cart'
-  code: |-
-    const mockData = {
-        // Mocked field values
-        caSiteId: "1739",
-        caCollectionDomain: "collect.commander1.com",
-        customEventId: "123456789",
-        testEventCode: "TEST12345",
-        caEvent: "add_to_cart",
-        value: "5375.00",
-        currency: "EUR",
-        productArray: [{
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "14548",
-                "cart_item_name": "Wallet",
-                "cart_item_unitprice_ati": "275",
-                "cart_item_unitprice_tf": "225.41",
-                "cart_item_discount_ati": "275",
-                "cart_item_discount_tf": "225.41",
-                "cart_item_unit_discounted_ati": "275",
-                "cart_item_unit_discounted_tf": "225.41",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Pelletteria",
-                "cart_item_macro_category_id": "3074457345616676670",
-                "cart_item_micro_category": "Astucci portacarte",
-                "cart_item_micro_category_id": "3074457345616676709",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Black", "White"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2774",
-                "cart_item_legacy_micro_id": "21383",
-                "cart_item_product_id": "34480784411793309",
-                "cart_item_product_variant_id": "34480784411793399",
-                "cart_item_eng_title": "Wallet 6cc",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": true,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "14548",
-                "cart_item_skuMfPartNumber": "4017941145482",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430642|0400571166790"
-            }, {
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "125582",
-                "cart_item_name": "Chronograph",
-                "cart_item_unitprice_ati": "5100.80",
-                "cart_item_unitprice_tf": "4180.33",
-                "cart_item_discount_ati": "5100",
-                "cart_item_discount_tf": "4180.33",
-                "cart_item_unit_discounted_ati": "5100",
-                "cart_item_unit_discounted_tf": "4180.33",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Orologi",
-                "cart_item_macro_category_id": "3074457345616676672",
-                "cart_item_micro_category": "Orologi da polso",
-                "cart_item_micro_category_id": "3074457345616676729",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Silver", "Orange"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2776",
-                "cart_item_legacy_micro_id": "21376",
-                "cart_item_product_id": "19971654706583601",
-                "cart_item_product_variant_id": "19971654706583602",
-                "cart_item_eng_title": "Chronograph",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": false,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "Acciaio",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "125582",
-                "cart_item_skuMfPartNumber": "7612582328620",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430643|0400572466936"
-            }
-        ],
-      productId: "cart_item_product_id",
-      productName: "cart_item_name",
-      productPrice: "cart_item_unitprice_ati",
-      productQuantity: "cart_item_quantity",
-      productCurrency: "EUR",
-      productCategory1: "cart_item_macro_category_id",
-      productCategory2: "cart_item_micro_category_id",
-      productBrand: "cart_item_brand",
-      productSize: "",
-      productColors: "cart_item_colors",
-      productVariant: "cart_item_product_variant_id",
-      productListPosition: "",
-      productDiscount: "",
-      productCoupon: "PROMO5",
-      productCustom: "",
-      oUserId: "123456789",
-      oUserEmail: "test@test.it",
-      userPhone: "00393399988776",
-      userGender: "male",
-      userBirthdate: "12-31-1900",
-      userFirstName: "testFirstName",
-      userLastName: "testLastName",
-      userCity: "Milan",
-      userCountry: "Italy",
-      userZipcode: "20100",
-      userConsentCategories: [1,3,4]
-    };
-
-    // Call runCode to run the template's code.
-    runCode(mockData);
-
-    assertThat('window.cact').isDefined();
+  code: "const mockData = {\n    // Mocked field values\n    caSiteId: \"1739\",\n\
+    \    caCollectionDomain: \"collect.commander1.com\",\n    customEventId: \"123456789\"\
+    ,\n    testEventCode: \"TEST12345\",\n    caEvent: \"add_to_cart\",\n    value:\
+    \ \"5375.00\",\n    currency: \"EUR\",\n    customEventTable: [{\"field_name\"\
+    :\"fieldname1\",\"field_value\":\"fieldvalue1\"},{\"field_name\":\"fieldname2\"\
+    ,\"field_value\":\"fieldvalue2\"}, {\"field_name\":\"fieldname3\",\"field_value\"\
+    :\"fieldvalue3\"}], \n    productArray: [{\n            \"defaultLanguage\": null,\n\
+    \            \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\": \"14548\"\
+    ,\n            \"cart_item_name\": \"Wallet\",\n            \"cart_item_unitprice_ati\"\
+    : \"275\",\n            \"cart_item_unitprice_tf\": \"225.41\",\n            \"\
+    cart_item_discount_ati\": \"275\",\n            \"cart_item_discount_tf\": \"\
+    225.41\",\n            \"cart_item_unit_discounted_ati\": \"275\",\n         \
+    \   \"cart_item_unit_discounted_tf\": \"225.41\",\n            \"cart_item_quantity\"\
+    : 1,\n            \"cart_item_macro_category\": \"Pelletteria\",\n           \
+    \ \"cart_item_macro_category_id\": \"3074457345616676670\",\n            \"cart_item_micro_category\"\
+    : \"Astucci portacarte\",\n            \"cart_item_micro_category_id\": \"3074457345616676709\"\
+    ,\n            \"cart_item_brand\": \"MYBRAND\",\n            \"cart_item_brand_id\"\
+    : \"MYBRANDID\",\n            \"cart_item_colors\": [\"Black\", \"White\"],\n\
+    \            \"cart_item_color_id\": \"\",\n            \"cart_item_legacy_macro_id\"\
+    : \"2774\",\n            \"cart_item_legacy_micro_id\": \"21383\",\n         \
+    \   \"cart_item_product_id\": \"34480784411793309\",\n            \"cart_item_product_variant_id\"\
+    : \"34480784411793399\",\n            \"cart_item_eng_title\": \"Wallet 6cc\"\
+    ,\n            \"cart_item_engraved\": false,\n            \"cart_item_engravable\"\
+    : false,\n            \"cart_item_embossed\": false,\n            \"cart_item_embossable\"\
+    : true,\n            \"cart_item_adjusted\": false,\n            \"cart_item_adjustable\"\
+    : false,\n            \"cart_item_collection\": \"MyCollection\",\n          \
+    \  \"cart_item_subcollection\": \"\",\n            \"cart_item_line\": \"\",\n\
+    \            \"cart_item_casematerial\": \"\",\n            \"cart_item_jewelmaterial\"\
+    : \"\",\n            \"cart_item_leathermaterial\": \"\",\n            \"cart_item_strapmaterial\"\
+    : \"\",\n            \"cart_item_mfPartNumber\": \"14548\",\n            \"cart_item_skuMfPartNumber\"\
+    : \"4017941145482\",\n            \"cart_item_sellable\": \"ONLINE\",\n      \
+    \      \"cart_item_size\": [{\n                    \"SizeId\": \"OneSize\",\n\
+    \                    \"StockLevel\": \"Available\"\n                }\n      \
+    \      ],\n            \"cart_item_availability\": true,\n            \"cart_item_line_id\"\
+    : \"940562471838|2430642|0400571166790\"\n        }, {\n            \"defaultLanguage\"\
+    : null,\n            \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\"\
+    : \"125582\",\n            \"cart_item_name\": \"Chronograph\",\n            \"\
+    cart_item_unitprice_ati\": \"5100.80\",\n            \"cart_item_unitprice_tf\"\
+    : \"4180.33\",\n            \"cart_item_discount_ati\": \"5100\",\n          \
+    \  \"cart_item_discount_tf\": \"4180.33\",\n            \"cart_item_unit_discounted_ati\"\
+    : \"5100\",\n            \"cart_item_unit_discounted_tf\": \"4180.33\",\n    \
+    \        \"cart_item_quantity\": 1,\n            \"cart_item_macro_category\"\
+    : \"Orologi\",\n            \"cart_item_macro_category_id\": \"3074457345616676672\"\
+    ,\n            \"cart_item_micro_category\": \"Orologi da polso\",\n         \
+    \   \"cart_item_micro_category_id\": \"3074457345616676729\",\n            \"\
+    cart_item_brand\": \"MYBRAND\",\n            \"cart_item_brand_id\": \"MYBRANDID\"\
+    ,\n            \"cart_item_colors\": [\"Silver\", \"Orange\"],\n            \"\
+    cart_item_color_id\": \"\",\n            \"cart_item_legacy_macro_id\": \"2776\"\
+    ,\n            \"cart_item_legacy_micro_id\": \"21376\",\n            \"cart_item_product_id\"\
+    : \"19971654706583601\",\n            \"cart_item_product_variant_id\": \"19971654706583602\"\
+    ,\n            \"cart_item_eng_title\": \"Chronograph\",\n            \"cart_item_engraved\"\
+    : false,\n            \"cart_item_engravable\": false,\n            \"cart_item_embossed\"\
+    : false,\n            \"cart_item_embossable\": false,\n            \"cart_item_adjusted\"\
+    : false,\n            \"cart_item_adjustable\": false,\n            \"cart_item_collection\"\
+    : \"MyCollection\",\n            \"cart_item_subcollection\": \"\",\n        \
+    \    \"cart_item_line\": \"\",\n            \"cart_item_casematerial\": \"Acciaio\"\
+    ,\n            \"cart_item_jewelmaterial\": \"\",\n            \"cart_item_leathermaterial\"\
+    : \"\",\n            \"cart_item_strapmaterial\": \"\",\n            \"cart_item_mfPartNumber\"\
+    : \"125582\",\n            \"cart_item_skuMfPartNumber\": \"7612582328620\",\n\
+    \            \"cart_item_sellable\": \"ONLINE\",\n            \"cart_item_size\"\
+    : [{\n                    \"SizeId\": \"OneSize\",\n                    \"StockLevel\"\
+    : \"Available\"\n                }\n            ],\n            \"cart_item_availability\"\
+    : true,\n            \"cart_item_line_id\": \"940562471838|2430643|0400572466936\"\
+    \n        }\n    ],\n  productId: \"cart_item_product_id\",\n  productName: \"\
+    cart_item_name\",\n  productPrice: \"cart_item_unitprice_ati\",\n  productQuantity:\
+    \ \"cart_item_quantity\",\n  productCurrency: \"EUR\",\n  productCategory1: \"\
+    cart_item_macro_category_id\",\n  productCategory2: \"cart_item_micro_category_id\"\
+    ,\n  productBrand: \"cart_item_brand\",\n  productSize: \"\",\n  productColors:\
+    \ \"cart_item_colors\",\n  productVariant: \"cart_item_product_variant_id\",\n\
+    \  productListPosition: \"\",\n  productDiscount: \"\",\n  productCoupon: \"PROMO5\"\
+    ,\n  productCustom: \"\",\n  oUserId: \"123456789\",\n  oUserEmail: \"test@test.it\"\
+    ,\n  userPhone: \"00393399988776\",\n  userGender: \"male\",\n  userBirthdate:\
+    \ \"12-31-1900\",\n  userFirstName: \"testFirstName\",\n  userLastName: \"testLastName\"\
+    ,\n  userCity: \"Milan\",\n  userCountry: \"Italy\",\n  userZipcode: \"20100\"\
+    ,\n  userConsentCategories: [1,3,4]\n};\n\n// Call runCode to run the template's\
+    \ code.\nrunCode(mockData);\n\nassertThat('window.cact').isDefined();"
 - name: 'Test #4 | Event | Add to Wishlist'
   code: |-
     const mockData = {
@@ -2219,6 +1906,7 @@ scenarios:
         caEvent: "add_to_wishlist",
         value: "5375.00",
         currency: "EUR",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -2362,6 +2050,7 @@ scenarios:
         value: "5375.00",
         currency: "EUR",
         coupon: "PROMO5",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -2504,6 +2193,7 @@ scenarios:
       value: "5375.00",
       currency: "EUR",
       leadId: "testLeadId",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -2531,6 +2221,7 @@ scenarios:
       testEventCode: "TEST12345",
       caEvent: "login",
       method: "Linkedin",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -2559,6 +2250,7 @@ scenarios:
       caEvent: "page_view",
       pageType: "home",
       pageName: "TestPage",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -2595,6 +2287,7 @@ scenarios:
         status: "in_progress",
         currency: "EUR",
         coupon: "PROMO5",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -2743,6 +2436,7 @@ scenarios:
         status: "in_progress",
         currency: "EUR",
         coupon: "PROMO5",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -2884,6 +2578,7 @@ scenarios:
         caEvent: "remove_from_cart",
         value: "5375.00",
         currency: "EUR",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -3024,6 +2719,7 @@ scenarios:
       testEventCode: "TEST12345",
       caEvent: "search",
       searchTerm: "t-shirts",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -3052,6 +2748,7 @@ scenarios:
       caEvent: "select_content",
       contentType: "product",
       itemId: "34480784411793309",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -3079,6 +2776,7 @@ scenarios:
       testEventCode: "TEST12345",
       caEvent: "select_item",
       itemListName: "testItemListName",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -3219,6 +2917,7 @@ scenarios:
       testEventCode: "TEST12345",
       caEvent: "sign_up",
       signupMethod: "Facebook",
+      customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
       oUserId: "123456789",
       oUserEmail: "test@test.it",
       userPhone: "00393399988776",
@@ -3247,6 +2946,7 @@ scenarios:
         caEvent: "view_cart",
         value: "5375.00",
         currency: "EUR",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -3388,6 +3088,7 @@ scenarios:
         caEvent: "view_item",
         revenue: "5375.00",
         currency: "EUR",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -3528,6 +3229,7 @@ scenarios:
         testEventCode: "TEST12345",
         caEvent: "view_item_list",
         itemListName: "testItemListName",
+        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
         productArray: [{
                 "defaultLanguage": null,
                 "cart_item_cod8": "",
@@ -3805,6 +3507,6 @@ setup: ''
 
 ___NOTES___
 
-Created on 19/7/2022, 11:21:48
+Created on 16/8/2022, 16:44:13
 
 
