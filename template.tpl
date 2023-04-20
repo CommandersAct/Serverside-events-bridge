@@ -42,6 +42,9 @@ ___TEMPLATE_PARAMETERS___
     "valueValidators": [
       {
         "type": "NON_EMPTY"
+      },
+      {
+        "type": "NUMBER"
       }
     ],
     "alwaysInSummary": true,
