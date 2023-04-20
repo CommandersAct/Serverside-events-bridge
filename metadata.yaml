@@ -15,7 +15,7 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
-  - sha: 0b67ad2ac84ab9941fe8f6c2b1519ec0b5c482ac
+  - sha: 447400fa97a4bf840d0d0ff0574287d65972ea95
     changeNotes: Require a Commanders Act source key.
   - sha: 0eb781ff5100bdf618629a7312fda6f58ddf55cb
     changeNotes: Support for custom callback function.
