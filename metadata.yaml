@@ -13,7 +13,7 @@
 # limitations under the License.
 
 homepage: "https://www.commandersact.com"
-documentation: "https://community.commandersact.com/tagcommander/user-manual/serverside-v2/facebook-conversion-api/facebook-capi-through-gtm"
+documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
   - sha: 0b67ad2ac84ab9941fe8f6c2b1519ec0b5c482ac
     changeNotes: Require a Commanders Act source key.
