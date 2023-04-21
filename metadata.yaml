@@ -13,8 +13,10 @@
 # limitations under the License.
 
 homepage: "https://www.commandersact.com"
-documentation: "https://community.commandersact.com/tagcommander/user-manual/serverside-v2/facebook-conversion-api/facebook-capi-through-gtm"
+documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
+  - sha: 37518d9c61100ef018c8d41056a9e246534eee6b
+    changeNotes: Require a Commanders Act source key.
   - sha: 0eb781ff5100bdf618629a7312fda6f58ddf55cb
     changeNotes: Support for custom callback function.
   - sha: 816f2b93f05e6afb2aa07a23469cb983efc66590

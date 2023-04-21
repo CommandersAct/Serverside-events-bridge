@@ -1,8 +1,9 @@
-# ![TagCo logo](/Screenshots/tag.png) Serverside events bridge
+[![Commanders Act Logo](/Screenshots/CommandersAct.png)](https://www.commandersact.com/)
+# GTM <-> Serverside events Bridge
 ## Overview
-A GTM template using "Commanders Act" reference specifications to perform advanced serverside activation use cases.
+This is a Google Tag Manager (GTM) template using [Commanders Act](https://www.commandersact.com/)'s reference specifications to perform advanced serverside activation use cases.
 
-The full documentation is available at https://community.commandersact.com/tagcommander/user-manual/serverside-v2/facebook-conversion-api/facebook-capi-through-gtm.
+The full documentation is available at: https://doc.commandersact.com/features/sources/sources-catalog/gtm
 
-## Licence
-See the LICENCE file for details.
+## License
+See the LICENSE file for details.
