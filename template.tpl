@@ -53,14 +53,14 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "label1",
-    "displayName": "(NEW) A source key is now required. Check our documentation if needed."
+    "displayName": "(NEW) A source key is now required. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e if needed."
   },
   {
     "type": "TEXT",
     "name": "caSourceKey",
     "displayName": "Commanders Act Source Key:",
     "simpleValueType": true,
-    "help": "After creating a \"Google Tag Manager\" source in Commanders Act, you are provided with a corresponding source key. Check our documentation if needed.",
+    "help": "After creating a \"Google Tag Manager\" source in Commanders Act, you are provided with a corresponding source key. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e if needed.",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
