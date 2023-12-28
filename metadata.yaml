@@ -15,6 +15,8 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
+  - sha: 06935cc806f388769f05ee4abdc3f22d9d05fab7
+    changeNotes: Added page_type support for page_view event.
   - sha: 37518d9c61100ef018c8d41056a9e246534eee6b
     changeNotes: Require a Commanders Act source key.
   - sha: 0eb781ff5100bdf618629a7312fda6f58ddf55cb
