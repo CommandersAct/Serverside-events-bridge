@@ -53,7 +53,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "LABEL",
     "name": "label1",
-    "displayName": "(NEW) A source key is now required. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e if needed."
+    "displayName": "(NEW) A source key is now required. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e for more information."
   },
   {
     "type": "TEXT",
@@ -1431,7 +1431,10 @@ if (data.caEvent) {
 		if (data.signupMethod) caEventData.method = data.signupMethod;
 	}
 	if (data.caEvent === "page_view") {
-		if (data.pageType) caEventData.type = data.pageType;
+		if (data.pageType) {
+			caEventData.type = data.pageType;
+			caEventData.page_type = data.pageType;
+		}
 	}
 	else if ((data.caEvent === "purchase") || (data.caEvent === "refund")) {
 		if (data.conversionType) caEventData.type = data.conversionType;
