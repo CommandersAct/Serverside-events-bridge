@@ -1135,20 +1135,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pUserId",
         "displayName": "User Id",
         "simpleValueType": true,
-        "help": "User identifier. (*) This is required if \"User Email\" is not set.",
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY",
-            "enablingConditions": [
-              {
-                "paramName": "pUserEmail",
-                "paramValue": "",
-                "type": "NOT_PRESENT"
-              }
-            ],
-            "errorMessage": "\"User Id\" is required if \"User Email\" is empty."
-          }
-        ],
+        "help": "User identifier. (*) This is required for many destinations and internal processing.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1162,7 +1149,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "oUserId",
         "displayName": "User Id",
         "simpleValueType": true,
-        "help": "User identifier.",
+        "help": "User identifier. (*) This is required for many destinations and internal processing.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1176,20 +1163,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pUserEmail",
         "displayName": "User Email",
         "simpleValueType": true,
-        "help": "User email. (*) This is required if \"User Id\" is not set.",
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY",
-            "enablingConditions": [
-              {
-                "paramName": "pUserId",
-                "paramValue": "",
-                "type": "NOT_PRESENT"
-              }
-            ],
-            "errorMessage": "\"User Email\" is required if \"User Id\" is empty."
-          }
-        ],
+        "help": "User email. (*) This is required for many destinations and internal processing.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1203,7 +1177,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "oUserEmail",
         "displayName": "User Email",
         "simpleValueType": true,
-        "help": "User email.",
+        "help": "User email. (*) This is required for many destinations and internal processing.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -1211,6 +1185,20 @@ ___TEMPLATE_PARAMETERS___
             "type": "NOT_EQUALS"
           }
         ]
+      },
+      {
+        "type": "TEXT",
+        "name": "userEmailSHA256",
+        "displayName": "User Email SHA256",
+        "simpleValueType": true,
+        "help": "User email SHA256. (*) This is required if \"User Email\" is not set."
+      },
+      {
+        "type": "TEXT",
+        "name": "userEmailMD5",
+        "displayName": "User Email MD5",
+        "simpleValueType": true,
+        "help": "User email MD5. (*) This is required if \"User Email\" is not set."
       },
       {
         "type": "TEXT",
@@ -1481,6 +1469,7 @@ if (data.caEvent) {
 	if (data.itemId) caEventData.item_id = data.itemId;
 	if (data.itemListName) caEventData.item_list_name = data.itemListName;
     caEventData.user = {};
+	// Keep separate fields for compatibility with old template versions...
 	if (data.caEvent === "purchase") {
 		if (data.pUserId) caEventData.user.id = data.pUserId;
 		if (data.pUserEmail) caEventData.user.email = data.pUserEmail;
@@ -1488,6 +1477,8 @@ if (data.caEvent) {
 		if (data.oUserId) caEventData.user.id = data.oUserId;
 		if (data.oUserEmail) caEventData.user.email = data.oUserEmail;
 	}
+	if (data.userEmailSHA256) caEventData.user.email_sha256 = data.userEmailSHA256;
+	if (data.userEmailMD5) caEventData.user.email_md5 = data.userEmailMD5;
     setAdditionalUserProperties();
     if (data.userConsentCategories) caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
