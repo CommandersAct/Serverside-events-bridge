@@ -15,6 +15,8 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
+  - sha: b0e41e2d4bcd20ad6219f58f31ec6b23b8e134f6
+    changeNotes: Added support for additional input fields and misc.
   - sha: ad1aaafe1fda69f0456c950d82514ecbd643c4cd
     changeNotes: Added support for "User Email SHA256" and "User Email MD5".
   - sha: 04ee060ec49be939d60ab8ff5b9b397206cea158
