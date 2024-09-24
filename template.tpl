@@ -66,7 +66,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "caSourceKey",
         "displayName": "Commanders Act Source Key",
         "simpleValueType": true,
-        "help": "After creating a \"Google Tag Manager\" source in Commanders Act, you are provided with a corresponding source key. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e if needed.",
+        "help": "After creating a \"Google Tag Manager\" source in Commanders Act, you are provided with a corresponding source key. Check \u003ca href\u003d\"https://doc.commandersact.com/features/sources/sources-catalog/gtm\" target\u003d\"_blank\"\u003eour documentation\u003c/a\u003e for more details.",
         "valueValidators": [
           {
             "type": "NON_EMPTY"
@@ -164,7 +164,7 @@ ___TEMPLATE_PARAMETERS___
             "type": "NON_EMPTY"
           }
         ],
-        "help": "Your event name. Select \"[Custom Event]\" to set a custom event name."
+        "help": "Your event name. Select \u003ccode\u003e\u003cb\u003e[Custom Event]\u003c/b\u003e\u003c/code\u003e to set a custom event name."
       },
       {
         "type": "TEXT",
@@ -239,7 +239,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "revenue",
         "displayName": "Revenue",
         "simpleValueType": true,
-        "help": "Revenue, shipping price and taxes excluded, after discount.\n(*) \"Revenue\" is typically required for meaningful reporting.\n(*) \"Currency\" is required if you set revenue.",
+        "help": "Revenue, shipping price and taxes excluded, after discount.\n(*) \u003ccode\u003e\u003cb\u003eRevenue\u003c/b\u003e\u003c/code\u003e is typically required for meaningful reporting.\n(*) \u003ccode\u003e\u003cb\u003eCurrency\u003c/b\u003e\u003c/code\u003e is required if you set revenue.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -300,7 +300,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "conversionType",
         "displayName": "Type",
         "simpleValueType": true,
-        "help": "Type of conversion (online, offline, call etc.).",
+        "help": "Type of conversion (\u003ccode\u003e\u003cb\u003eonline\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eoffline\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ecall\u003c/b\u003e\u003c/code\u003e etc.).",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -417,7 +417,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "currency",
         "displayName": "Currency",
         "simpleValueType": true,
-        "help": "Currency of the purchase or items associated with the event, in 3-letter ISO 4217 format.\n(*) If you supply the \"Revenue\" or \"Value\" parameter, you must also supply the currency parameter so metrics can be computed accurately.",
+        "help": "Currency of the purchase or items associated with the event, in \u003ca href\u003d\"https://en.wikipedia.org/wiki/ISO_4217#List_of_ISO_4217_currency_codes\" target\u003d\"_blank\"\u003e3-letter ISO 4217 format\u003c/a\u003e. (*) If you supply the \u003ccode\u003e\u003cb\u003eRevenue\u003c/b\u003e\u003c/code\u003e or \u003ccode\u003e\u003cb\u003eValue\u003c/b\u003e\u003c/code\u003e, you must also supply the currency so metrics can be computed accurately.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -519,7 +519,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "paymentMethod",
         "displayName": "Payment Method",
         "simpleValueType": true,
-        "help": "Payment method type. Accepted values: \"by_invoice\", \"by_bank_transfer_in_advance\", \"card\", \"check_in_advance\", \"cod\", \"coupon\", \"direct_debit\", \"online_payment_system\", \"other\", all without quotes.",
+        "help": "Payment method type. Accepted values: \u003ccode\u003e\u003cb\u003eby_invoice\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eby_bank_transfer_in_advance\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ecard\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003echeck_in_advance\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ecod\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ecoupon\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003edirect_debit\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eonline_payment_system\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eother\u003c/b\u003e\u003c/code\u003e.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -543,7 +543,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "status",
         "displayName": "Status",
         "simpleValueType": true,
-        "help": "Status of the conversion. Accepted values: \"canceled\", \"delivered\", \"in_progress\", \"partially_delivered\", \"partially_returned\", \"partially_shipped\", \"pending_shipment\", \"returned\", \"shipped\", \"pending\". All without quotes.",
+        "help": "Status of the conversion. Accepted values: \u003ccode\u003e\u003cb\u003ecanceled\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003edelivered\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ein_progress\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003epartially_delivered\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003epartially_returned\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003epartially_shipped\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003epending_shipment\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ereturned\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eshipped\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003epending\u003c/b\u003e\u003c/code\u003e.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -588,7 +588,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "shippingTier",
         "displayName": "Shipping Tier",
         "simpleValueType": true,
-        "help": "The shipping tier (e.g.  Air, Next-day) selected as delivery method.",
+        "help": "The shipping tier (E.g. \u003ccode\u003e\u003cb\u003eAir\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eNext-day\u003c/b\u003e\u003c/code\u003e) selected as delivery method.",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -669,7 +669,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "pageType",
         "displayName": "Page Type",
         "simpleValueType": true,
-        "help": "Page category. Recommended predefined types: \"home\", \"landing\", \"product_list\", \"product\", \"content_list\", \"content\", \"search\", \"funnel\", \"success\", \"funnel_confirmation\", \"account\", \"cart\", \"legal\" (e.g. Privacy Policy). All without quotes.",
+        "help": "Page category. Recommended predefined types: \u003ccode\u003e\u003cb\u003ehome\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003elanding\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eproduct_list\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eproduct\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003econtent_list\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003econtent\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003esearch\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003efunnel\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003esuccess\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003efunnel_confirmation\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eaccount\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ecart\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003elegal\u003c/b\u003e\u003c/code\u003e (E.g. Privacy Policy).",
         "enablingConditions": [
           {
             "paramName": "caEvent",
@@ -900,7 +900,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "productId",
         "displayName": "Product Id",
         "simpleValueType": true,
-        "help": "Product identifier property inside your \"Product Array\".",
+        "help": "Product identifier property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -919,7 +919,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "productName",
         "displayName": "Product Name",
         "simpleValueType": true,
-        "help": "Product name property inside your \"Product Array\".",
+        "help": "Product name property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -938,7 +938,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "productPrice",
         "displayName": "Product Price",
         "simpleValueType": true,
-        "help": "Product price property inside your \"Product Array\".",
+        "help": "Product price property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -957,7 +957,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "productQuantity",
         "displayName": "Product Quantity",
         "simpleValueType": true,
-        "help": "Product quantity property inside your \"Product Array\".",
+        "help": "Product quantity property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e.",
         "valueValidators": [
           {
             "type": "NON_EMPTY",
@@ -976,84 +976,105 @@ ___TEMPLATE_PARAMETERS___
         "name": "productCurrency",
         "displayName": "Product Currency",
         "simpleValueType": true,
-        "help": "Product currency, in 3-letter ISO 4217 format, inside your \"Product Array\". If set, event-level currency is ignored.  Multiple currencies per event is not supported. Each item should set the same currency."
+        "help": "Product currency, in 3-letter ISO 4217 format, inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. If set, event-level currency is ignored.  Multiple currencies per event is not supported. Each item should set the same currency."
       },
       {
         "type": "TEXT",
         "name": "productCategory1",
         "displayName": "Product Category1",
         "simpleValueType": true,
-        "help": "Product category1 property inside your \"Product Array\"."
+        "help": "Product category1 property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e."
       },
       {
         "type": "TEXT",
         "name": "productCategory2",
         "displayName": "Product Category2",
         "simpleValueType": true,
-        "help": "Product category2 property inside your \"Product Array\". Used to specify an additional category."
+        "help": "Product category2 property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. Used to specify an additional category."
       },
       {
         "type": "TEXT",
         "name": "productCategory3",
         "displayName": "Product Category3",
         "simpleValueType": true,
-        "help": "Product category3 property inside your \"Product Array\". Used to specify an additional category."
+        "help": "Product category3 property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. Used to specify an additional category."
+      },
+      {
+        "type": "TEXT",
+        "name": "productCategory4",
+        "displayName": "Product Category4",
+        "simpleValueType": true,
+        "help": "Product category4 property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. Used to specify an additional category."
+      },
+      {
+        "type": "TEXT",
+        "name": "productCategory5",
+        "displayName": "Product Category5",
+        "simpleValueType": true,
+        "help": "Product category5 property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. Used to specify an additional category."
       },
       {
         "type": "TEXT",
         "name": "productBrand",
         "displayName": "Product Brand",
         "simpleValueType": true,
-        "help": "Product brand property inside your \"Product Array\"."
+        "help": "Product brand property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e."
       },
       {
         "type": "TEXT",
         "name": "productSize",
         "displayName": "Product Size",
         "simpleValueType": true,
-        "help": "Product size property inside your \"Product Array\"."
+        "help": "Product size property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e."
       },
       {
         "type": "TEXT",
         "name": "productColors",
         "displayName": "Product Colors",
         "simpleValueType": true,
-        "help": "Product colors property inside your \"Product Array\". E.g. [\"red\", \"blue\", \"green\"]."
+        "help": "Product colors property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. E.g. [\"red\", \"blue\", \"green\"]."
       },
       {
         "type": "TEXT",
         "name": "productVariant",
         "displayName": "Product Variant",
         "simpleValueType": true,
-        "help": "Product variant property inside your \"Product Array\"."
+        "help": "Product variant property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e."
       },
       {
         "type": "TEXT",
         "name": "productListPosition",
         "displayName": "Product List Position",
         "simpleValueType": true,
-        "help": "Product position property inside your \"Product Array\". This position is intended in a list or collection."
+        "help": "Product position property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. This position is intended in a list or collection."
       },
       {
         "type": "TEXT",
         "name": "productDiscount",
         "displayName": "Product Discount",
         "simpleValueType": true,
-        "help": "Product discount property inside your \"Product Array\". This is the monetary value of discount associated with a purchase."
+        "help": "Product discount property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. This is the monetary value of discount associated with a purchase."
       },
       {
         "type": "TEXT",
         "name": "productCoupon",
         "displayName": "Product Coupon",
         "simpleValueType": true,
-        "help": "Product coupon property inside your \"Product Array\". This is associated with an item."
+        "help": "Product coupon property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. This is associated with an item."
+      },
+      {
+        "type": "TEXT",
+        "name": "productAffiliation",
+        "displayName": "Product Affiliation",
+        "simpleValueType": true,
+        "help": "Product affiliation property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. This is associated with an item."
       },
       {
         "type": "TEXT",
         "name": "productCustom",
         "displayName": "Product Custom",
         "simpleValueType": true,
-        "help": "Product custom property inside your \"Product Array\". This is an object containing custom properties you want to send."
+        "help": "Product custom property inside your \u003ccode\u003e\u003cb\u003eProduct Array\u003c/b\u003e\u003c/code\u003e. This is an object containing custom properties you want to send."
       }
     ],
     "enablingConditions": [
@@ -1212,14 +1233,14 @@ ___TEMPLATE_PARAMETERS___
         "name": "userGender",
         "displayName": "User Gender",
         "simpleValueType": true,
-        "help": "User gender."
+        "help": "User gender: \u003ccode\u003e\u003cb\u003ef\u003c/code\u003e\u003c/b\u003e for female or \u003ccode\u003e\u003cb\u003em\u003c/code\u003e\u003c/b\u003e for male."
       },
       {
         "type": "TEXT",
         "name": "userBirthdate",
         "displayName": "User Birthdate",
         "simpleValueType": true,
-        "help": "User birthdate"
+        "help": "User birthdate, \u003ccode\u003e\u003cb\u003eYYYY-MM-DD\u003c/b\u003e\u003c/code\u003e format."
       },
       {
         "type": "TEXT",
@@ -1244,10 +1265,24 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "TEXT",
-        "name": "userCountry",
-        "displayName": "User Country:",
+        "name": "userStreet",
+        "displayName": "User Street",
         "simpleValueType": true,
-        "help": "User country."
+        "help": "User street address."
+      },
+      {
+        "type": "TEXT",
+        "name": "userState",
+        "displayName": "User State",
+        "simpleValueType": true,
+        "help": "User state (E.g. \u003ccode\u003e\u003cb\u003eMassachusetts\u003c/b\u003e\u003c/code\u003e)."
+      },
+      {
+        "type": "TEXT",
+        "name": "userCountry",
+        "displayName": "User Country",
+        "simpleValueType": true,
+        "help": "User country, ISO 3166-1 \u003ca href\u003d\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\" target\u003d\"_blank\"\u003e2-letter\u003c/a\u003e or \u003ca href\u003d\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3\" target\u003d\"_blank\"\u003e3-letter\u003c/a\u003e formats."
       },
       {
         "type": "TEXT",
@@ -1255,6 +1290,13 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "User Zipcode",
         "simpleValueType": true,
         "help": "User zipcode."
+      },
+      {
+        "type": "TEXT",
+        "name": "userStatus",
+        "displayName": "User Status",
+        "simpleValueType": true,
+        "help": "User status as reported in your CRM (E.g. \u003ccode\u003e\u003cb\u003eNew\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003eExisting\u003c/b\u003e\u003c/code\u003e, \u003ccode\u003e\u003cb\u003ePremium\u003c/b\u003e\u003c/code\u003e)."
       },
       {
         "type": "SELECT",
@@ -1300,7 +1342,7 @@ ___TEMPLATE_PARAMETERS___
       }
     ],
     "valueHint": "collect.commander1.com",
-    "help": "Commanders Act domain for event collection. Default: \"collect.commander1.com\". Do not change it unless it\u0027s pointed by your Commanders Act account manager."
+    "help": "Commanders Act domain for event collection. Default: \u003ccode\u003e\u003cb\u003ecollect.commander1.com\u003c/b\u003e\u003c/code\u003e. Do not change it unless it\u0027s pointed by your Commanders Act account manager."
   },
   {
     "type": "TEXT",
@@ -1328,7 +1370,7 @@ ___TEMPLATE_PARAMETERS___
         "type": "EQUALS"
       }
     ],
-    "help": "Instead of using our generated value for the \"Event Id\", you can use a previously generated one by passing it in this field."
+    "help": "Instead of using our generated value for the \u003ccode\u003e\u003cb\u003eEvent Id\u003c/b\u003e\u003c/code\u003e, you can use a previously generated one by passing it in this field."
   },
   {
     "type": "TEXT",
@@ -1342,14 +1384,14 @@ ___TEMPLATE_PARAMETERS___
         "type": "EQUALS"
       }
     ],
-    "help": "Code used to verify that your server events are received correctly by Facebook. Use this code to test your server events in the \"Test Events\" feature - See Facebook \"Events Manager\" for more details."
+    "help": "Code used to verify that your server events are received correctly by Facebook via the \u003ccode\u003e\u003cb\u003eTest events\u003c/b\u003e\u003c/code\u003e feature. See Facebook \u003ca href\u003d\"https://www.facebook.com/business/help/898185560232180?id\u003d1205376682832142\" target\u003d\"_blank\"\u003eEvents Manager\u003c/a\u003e for more details."
   },
   {
     "type": "TEXT",
     "name": "callbackFunction",
     "displayName": "Callback Function",
     "simpleValueType": true,
-    "help": "A callback function that’s called after triggering the selected event. More details are available following this \u003ca href\u003d\"https://community.commandersact.com/platform-x/features/integrations/sources/sources-catalog/javascript-sdk#get-information\"\u003eLINK\u003c/a\u003e",
+    "help": "A callback function that’s called after triggering the selected event. More details are available following this \u003ca href\u003d\"https://community.commandersact.com/platform-x/features/integrations/sources/sources-catalog/javascript-sdk#get-information\"  target\u003d\"_blank\"\u003eLINK\u003c/a\u003e",
     "enablingConditions": [
       {
         "paramName": "isCustomSettingsOn",
@@ -1378,6 +1420,7 @@ function mapItem(p) {
         list_position: makeNumber(p[data.productListPosition]),
         discount: makeNumber(p[data.productDiscount]),
         quantity: makeNumber(p[data.productQuantity]),
+        affiliation: p[data.productAffiliation],
         coupon: p[data.productCoupon],
         custom: p[data.productCustom],
         product: {
@@ -1388,6 +1431,8 @@ function mapItem(p) {
             category_1: p[data.productCategory1],
             category_2: p[data.productCategory2],
             category_3: p[data.productCategory3],
+            category_4: p[data.productCategory4],
+            category_5: p[data.productCategory5],
             brand: p[data.productBrand],
             colors: p[data.productColors],
             size: p[data.productSize]
@@ -1427,8 +1472,11 @@ function setAdditionalUserProperties() {
   if (data.userFirstName) caEventData.user.firstname = data.userFirstName;
   if (data.userLastName) caEventData.user.lastname = data.userLastName;
   if (data.userCity) caEventData.user.city = data.userCity;
+  if (data.userState) caEventData.user.state = data.userState;
+  if (data.userStreet) caEventData.user.street = data.userStreet;
   if (data.userCountry) caEventData.user.country = data.userCountry;
   if (data.userZipcode) caEventData.user.zipcode = data.userZipcode;
+  if (data.userStatus) caEventData.user.status = data.userStatus;
 }
 
 if (typeof data.productArray === "undefined") data.productArray = [];
@@ -1638,155 +1686,99 @@ ___TESTS___
 
 scenarios:
 - name: 'Test #1 | Event | Add Payment Info'
-  code: |-
-    const log = require('logToConsole');
-    function myCallback() {
-      log("myCallback is triggered!!!");
-    }
-
-    const mockData = {
-        // Mocked field values
-        caSiteId: "1739",
-        caCollectionDomain: "collect.commander1.com",
-        customEventId: "123456789",
-        testEventCode: "TEST12345",
-        caEvent: "add_payment_info",
-        paymentMethod: "card",
-        callbackFunction: myCallback,
-        revenue: "5375.50",
-        currency: "EUR",
-        coupon: "PROMO5",
-        customEventTable: [{"field_name":"fieldname1","field_value":"fieldvalue1"},{"field_name":"fieldname2","field_value":"fieldvalue2"}, {"field_name":"fieldname3","field_value":"fieldvalue3"}],
-        productArray: [{
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "14548",
-                "cart_item_name": "Wallet",
-                "cart_item_unitprice_ati": "275",
-                "cart_item_unitprice_tf": "225.41",
-                "cart_item_discount_ati": "275",
-                "cart_item_discount_tf": "225.41",
-                "cart_item_unit_discounted_ati": "275",
-                "cart_item_unit_discounted_tf": "225.41",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Pelletteria",
-                "cart_item_macro_category_id": "3074457345616676670",
-                "cart_item_micro_category": "Astucci portacarte",
-                "cart_item_micro_category_id": "3074457345616676709",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Black", "White"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2774",
-                "cart_item_legacy_micro_id": "21383",
-                "cart_item_product_id": "34480784411793309",
-                "cart_item_product_variant_id": "34480784411793399",
-                "cart_item_eng_title": "Wallet 6cc",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": true,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "14548",
-                "cart_item_skuMfPartNumber": "4017941145482",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430642|0400571166790"
-            }, {
-                "defaultLanguage": null,
-                "cart_item_cod8": "",
-                "cart_item_cod10": "125582",
-                "cart_item_name": "Chronograph",
-                "cart_item_unitprice_ati": "5100.80",
-                "cart_item_unitprice_tf": "4180.33",
-                "cart_item_discount_ati": "5100",
-                "cart_item_discount_tf": "4180.33",
-                "cart_item_unit_discounted_ati": "5100",
-                "cart_item_unit_discounted_tf": "4180.33",
-                "cart_item_quantity": 1,
-                "cart_item_macro_category": "Orologi",
-                "cart_item_macro_category_id": "3074457345616676672",
-                "cart_item_micro_category": "Orologi da polso",
-                "cart_item_micro_category_id": "3074457345616676729",
-                "cart_item_brand": "MYBRAND",
-                "cart_item_brand_id": "MYBRANDID",
-                "cart_item_colors": ["Silver", "Orange"],
-                "cart_item_color_id": "",
-                "cart_item_legacy_macro_id": "2776",
-                "cart_item_legacy_micro_id": "21376",
-                "cart_item_product_id": "19971654706583601",
-                "cart_item_product_variant_id": "19971654706583602",
-                "cart_item_eng_title": "Chronograph",
-                "cart_item_engraved": false,
-                "cart_item_engravable": false,
-                "cart_item_embossed": false,
-                "cart_item_embossable": false,
-                "cart_item_adjusted": false,
-                "cart_item_adjustable": false,
-                "cart_item_collection": "MyCollection",
-                "cart_item_subcollection": "",
-                "cart_item_line": "",
-                "cart_item_casematerial": "Acciaio",
-                "cart_item_jewelmaterial": "",
-                "cart_item_leathermaterial": "",
-                "cart_item_strapmaterial": "",
-                "cart_item_mfPartNumber": "125582",
-                "cart_item_skuMfPartNumber": "7612582328620",
-                "cart_item_sellable": "ONLINE",
-                "cart_item_size": [{
-                        "SizeId": "OneSize",
-                        "StockLevel": "Available"
-                    }
-                ],
-                "cart_item_availability": true,
-                "cart_item_line_id": "940562471838|2430643|0400572466936"
-            }
-        ],
-      productId: "cart_item_product_id",
-      productName: "cart_item_name",
-      productPrice: "cart_item_unitprice_ati",
-      productQuantity: "cart_item_quantity",
-      productCurrency: "EUR",
-      productCategory1: "cart_item_macro_category_id",
-      productCategory2: "cart_item_micro_category_id",
-      productBrand: "cart_item_brand",
-      productSize: "",
-      productColors: "cart_item_colors",
-      productVariant: "cart_item_product_variant_id",
-      productListPosition: "",
-      productDiscount: "",
-      productCoupon: "PROMO5",
-      productCustom: "",
-      oUserId: "123456789",
-      oUserEmail: "test@test.it",
-      userPhone: "00393399988776",
-      userGender: "male",
-      userBirthdate: "12-31-1900",
-      userFirstName: "testFirstName",
-      userLastName: "testLastName",
-      userCity: "Milan",
-      userCountry: "Italy",
-      userZipcode: "20100",
-      userConsentCategories: [1,3,4]
-    };
-
-    // Call runCode to run the template's code.
-    runCode(mockData);
-
-    assertThat('window.cact').isDefined();
+  code: "const log = require('logToConsole');\nfunction myCallback() {\n  log(\"myCallback\
+    \ is triggered!!!\");\n}\n\nconst mockData = {\n    // Mocked field values\n \
+    \   caSiteId: \"1739\",\n    caCollectionDomain: \"collect.commander1.com\",\n\
+    \    customEventId: \"123456789\",\n    testEventCode: \"TEST12345\",\n    caEvent:\
+    \ \"add_payment_info\",\n    paymentMethod: \"card\",\n    callbackFunction: myCallback,\n\
+    \    revenue: \"5375.50\",\n    currency: \"EUR\",\n    coupon: \"PROMO5\",\n\
+    \    customEventTable: [{\"field_name\":\"fieldname1\",\"field_value\":\"fieldvalue1\"\
+    },{\"field_name\":\"fieldname2\",\"field_value\":\"fieldvalue2\"}, {\"field_name\"\
+    :\"fieldname3\",\"field_value\":\"fieldvalue3\"}],\n    productArray: [{\n   \
+    \         \"defaultLanguage\": null,\n\t\t\t\"affiliation\": \"aff1\",\n     \
+    \       \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\": \"14548\"\
+    ,\n            \"cart_item_name\": \"Wallet\",\n            \"cart_item_unitprice_ati\"\
+    : \"275\",\n            \"cart_item_unitprice_tf\": \"225.41\",\n            \"\
+    cart_item_discount_ati\": \"275\",\n            \"cart_item_discount_tf\": \"\
+    225.41\",\n            \"cart_item_unit_discounted_ati\": \"275\",\n         \
+    \   \"cart_item_unit_discounted_tf\": \"225.41\",\n            \"cart_item_quantity\"\
+    : 1,\n            \"cart_item_category_1\": \"Pelletteria\",\n            \"cart_item_category_id_1\"\
+    : \"3074457345616676670\",\n            \"cart_item_category_2\": \"Astucci portacarte\"\
+    ,\n            \"cart_item_category_id_2\": \"3074457345616676709\",\n\t\t\t\"\
+    cart_item_category_3\": \"Sub category 3\",\n            \"cart_item_category_id_3\"\
+    : \"3074457345616676709_3\",\n\t\t\t\"cart_item_category_4\": \"Sub category 4\"\
+    ,\n            \"cart_item_category_id_4\": \"3074457345616676709_4\",\n\t\t\t\
+    \"cart_item_category_5\": \"Sub category 5\",\n            \"cart_item_category_id_5\"\
+    : \"3074457345616676709_5\",\n            \"cart_item_brand\": \"MYBRAND\",\n\
+    \            \"cart_item_brand_id\": \"MYBRANDID\",\n            \"cart_item_colors\"\
+    : [\"Black\", \"White\"],\n            \"cart_item_color_id\": \"\",\n       \
+    \     \"cart_item_legacy_macro_id\": \"2774\",\n            \"cart_item_legacy_micro_id\"\
+    : \"21383\",\n            \"cart_item_product_id\": \"34480784411793309\",\n \
+    \           \"cart_item_product_variant_id\": \"34480784411793399\",\n       \
+    \     \"cart_item_eng_title\": \"Wallet 6cc\",\n            \"cart_item_engraved\"\
+    : false,\n            \"cart_item_engravable\": false,\n            \"cart_item_embossed\"\
+    : false,\n            \"cart_item_embossable\": true,\n            \"cart_item_adjusted\"\
+    : false,\n            \"cart_item_adjustable\": false,\n            \"cart_item_collection\"\
+    : \"MyCollection\",\n            \"cart_item_subcollection\": \"\",\n        \
+    \    \"cart_item_line\": \"\",\n            \"cart_item_casematerial\": \"\",\n\
+    \            \"cart_item_jewelmaterial\": \"\",\n            \"cart_item_leathermaterial\"\
+    : \"\",\n            \"cart_item_strapmaterial\": \"\",\n            \"cart_item_mfPartNumber\"\
+    : \"14548\",\n            \"cart_item_skuMfPartNumber\": \"4017941145482\",\n\
+    \            \"cart_item_sellable\": \"ONLINE\",\n            \"cart_item_size\"\
+    : [{\n                    \"SizeId\": \"OneSize\",\n                    \"StockLevel\"\
+    : \"Available\"\n                }\n            ],\n            \"cart_item_availability\"\
+    : true,\n            \"cart_item_line_id\": \"940562471838|2430642|0400571166790\"\
+    \n        }, {\n            \"defaultLanguage\": null,\n\t\t\t\"affiliation\"\
+    : \"aff2\",\n            \"cart_item_cod8\": \"\",\n            \"cart_item_cod10\"\
+    : \"125582\",\n            \"cart_item_name\": \"Chronograph\",\n            \"\
+    cart_item_unitprice_ati\": \"5100.80\",\n            \"cart_item_unitprice_tf\"\
+    : \"4180.33\",\n            \"cart_item_discount_ati\": \"5100\",\n          \
+    \  \"cart_item_discount_tf\": \"4180.33\",\n            \"cart_item_unit_discounted_ati\"\
+    : \"5100\",\n            \"cart_item_unit_discounted_tf\": \"4180.33\",\n    \
+    \        \"cart_item_quantity\": 1,\n            \"cart_item_category_1\": \"\
+    Orologi\",\n            \"cart_item_category_id_1\": \"3074457345616676672\",\n\
+    \            \"cart_item_category_2\": \"Orologi da polso\",\n            \"cart_item_category_id_2\"\
+    : \"3074457345616676729\",\n\t\t\t\"cart_item_category_3\": \"Sub category 3_2\"\
+    ,\n            \"cart_item_category_id_3\": \"3074457345616676709_32\",\n\t\t\t\
+    \"cart_item_category_4\": \"Sub category 4_2\",\n            \"cart_item_category_id_4\"\
+    : \"3074457345616676709_42\",\n\t\t\t\"cart_item_category_5\": \"Sub category\
+    \ 5_2\",\n            \"cart_item_category_id_5\": \"3074457345616676709_52\"\
+    ,\n            \"cart_item_brand\": \"MYBRAND\",\n            \"cart_item_brand_id\"\
+    : \"MYBRANDID\",\n            \"cart_item_colors\": [\"Silver\", \"Orange\"],\n\
+    \            \"cart_item_color_id\": \"\",\n            \"cart_item_legacy_macro_id\"\
+    : \"2776\",\n            \"cart_item_legacy_micro_id\": \"21376\",\n         \
+    \   \"cart_item_product_id\": \"19971654706583601\",\n            \"cart_item_product_variant_id\"\
+    : \"19971654706583602\",\n            \"cart_item_eng_title\": \"Chronograph\"\
+    ,\n            \"cart_item_engraved\": false,\n            \"cart_item_engravable\"\
+    : false,\n            \"cart_item_embossed\": false,\n            \"cart_item_embossable\"\
+    : false,\n            \"cart_item_adjusted\": false,\n            \"cart_item_adjustable\"\
+    : false,\n            \"cart_item_collection\": \"MyCollection\",\n          \
+    \  \"cart_item_subcollection\": \"\",\n            \"cart_item_line\": \"\",\n\
+    \            \"cart_item_casematerial\": \"Acciaio\",\n            \"cart_item_jewelmaterial\"\
+    : \"\",\n            \"cart_item_leathermaterial\": \"\",\n            \"cart_item_strapmaterial\"\
+    : \"\",\n            \"cart_item_mfPartNumber\": \"125582\",\n            \"cart_item_skuMfPartNumber\"\
+    : \"7612582328620\",\n            \"cart_item_sellable\": \"ONLINE\",\n      \
+    \      \"cart_item_size\": [{\n                    \"SizeId\": \"OneSize\",\n\
+    \                    \"StockLevel\": \"Available\"\n                }\n      \
+    \      ],\n            \"cart_item_availability\": true,\n            \"cart_item_line_id\"\
+    : \"940562471838|2430643|0400572466936\"\n        }\n    ],\n  productId: \"cart_item_product_id\"\
+    ,\n  productName: \"cart_item_name\",\n  productPrice: \"cart_item_unitprice_ati\"\
+    ,\n  productQuantity: \"cart_item_quantity\",\n  productCurrency: \"EUR\",\n \
+    \ productCategory1: \"cart_item_category_1\",\n  productCategory2: \"cart_item_category_2\"\
+    ,\n  productCategory3: \"cart_item_category_3\",\n  productCategory4: \"cart_item_category_4\"\
+    ,\n  productCategory5: \"cart_item_category_5\",\n  productBrand: \"cart_item_brand\"\
+    ,\n  productSize: \"\",\n  productColors: \"cart_item_colors\",\n  productVariant:\
+    \ \"cart_item_product_variant_id\",\n  productListPosition: \"\",\n  productDiscount:\
+    \ \"\",\n  productAffiliation: \"affiliation\",\n  productCoupon: \"PROMO5\",\n\
+    \  productCustom: \"\",\n  oUserId: \"123456789\",\n  oUserEmail: \"test@test.it\"\
+    ,\n  userPhone: \"00393399988776\",\n  userGender: \"male\",\n  userBirthdate:\
+    \ \"12-31-1900\",\n  userFirstName: \"testFirstName\",\n  userLastName: \"testLastName\"\
+    ,\n  userCity: \"Milan\",\n  userStreet: \"Test street\",\n  userState: \"Massachusetts\"\
+    ,\n  userStatus: \"New\",\n  userCountry: \"Italy\",\n  userZipcode: \"20100\"\
+    ,\n  userEmailSHA256: \"ac6dcb2697d112cdbed0c3c486cf1a2150a160d7ea8f53aee6865d6c70612228\"\
+    ,\n  userEmailMD5: \"999788a2d46d19e702797566264b373e\",\n  userConsentCategories:\
+    \ [1,3,4]\n};\n\n// Call runCode to run the template's code.\nrunCode(mockData);\n\
+    \nassertThat('window.cact').isDefined();"
 - name: 'Test #2 | Event | Add Shipping Info'
   code: "const mockData = {\n    // Mocked field values\n    caSiteId: \"1739\",\n\
     \    caCollectionDomain: \"collect.commander1.com\",\n    customEventId: \"123456789\"\
