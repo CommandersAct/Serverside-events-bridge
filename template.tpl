@@ -1502,7 +1502,7 @@ function setAdditionalUserProperties() {
     }
 }
 
-function setConsetModeCategories() {
+function setConsentModeCategories() {
     caEventData.user.google_consent = {};
     const gcmCatories = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage', 'functionality_storage', 'personalization_storage', 'security_storage'];
     for (let i = 0; i < gcmCatories.length; i++) {
@@ -1563,7 +1563,7 @@ if (data.caEvent) {
 	if (data.userEmailSHA256) caEventData.user.email_sha256 = data.userEmailSHA256;
 	if (data.userEmailMD5) caEventData.user.email_md5 = data.userEmailMD5;
     setAdditionalUserProperties();
-    setConsetModeCategories();
+    setConsentModeCategories();
     if (data.userConsentCategories) caEventData.user.consent_categories = data.userConsentCategories;
     caEventData.items = data.productArray.map(function (p) {
       return mapItem(p);
