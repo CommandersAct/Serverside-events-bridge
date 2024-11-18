@@ -15,6 +15,8 @@
 homepage: "https://www.commandersact.com"
 documentation: "https://doc.commandersact.com/features/sources/sources-catalog/gtm"
 versions:
+  - sha: 3b7d9dec59c9dd84fc14e96cf4729f73d7c15dc5
+    changeNotes: Code polished.
   - sha: 9b3428d19088a7004bc84086cbd127f6662fa713
     changeNotes: Added support for Google Consent Mode categories.
   - sha: b0e41e2d4bcd20ad6219f58f31ec6b23b8e134f6
