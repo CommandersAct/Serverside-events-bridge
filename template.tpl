@@ -1503,13 +1503,13 @@ function setAdditionalUserProperties() {
 }
 
 function setConsentModeCategories() {
-    caEventData.user.google_consent = {};
+    caEventData.user.google_consent_mode = {};
     const gcmCatories = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage', 'functionality_storage', 'personalization_storage', 'security_storage'];
     for (let i = 0; i < gcmCatories.length; i++) {
         if (isConsentGranted(gcmCatories[i])) {
-            caEventData.user.google_consent[gcmCatories[i]] = 'granted';
+            caEventData.user.google_consent_mode[gcmCatories[i]] = 'granted';
         } else {
-            caEventData.user.google_consent[gcmCatories[i]] = 'denied';
+            caEventData.user.google_consent_mode[gcmCatories[i]] = 'denied';
         }
     }
 }
